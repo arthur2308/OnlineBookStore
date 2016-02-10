@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Events - Event Handler</title>
+    <link rel="stylesheet" href="css/c06.css" />
+  </head>
+  <body>
+    <div id="page">
+      <h1>List King</h1>
+      <h2>New Account</h2>
+      <form method="post" name="form1" id="form1" action="loginProcess.jsp">
+
+        <label for="username">Create a username: </label>
+        <input type="text" id="username" name="username" required/>
+        <div id="feedback1" class="feedback"></div>
+
+        <label for="password">Create a password: </label>
+        <input type="password" id="password" name="password"  required/>
+        <div id="feedback2" class="feedback"></div>
+        
+        <label for="email">Set an email: </label>
+        <input type="text" id="email" name="email"  required/>
+        <div id="feedback3" class="feedback"></div>
+
+        <input type="submit" id="submit" value="Login"/>
+
+      </form>
+    </div>
+    <script>
+   		var elMsg = document.getElementById('feedback1'); 
+   		var elMsg1 = document.getElementById('feedback2');
+		
+   		function checkUsername() {                            // Declare function
+		  if (this.value.length < 4) {                        // If username too short
+		    elMsg.textContent = 'Username must be 4 characters or more';  // Set msg
+		  } else {                                            // Otherwise
+			elMsg.textContent = '';                           // Clear message
+		  }
+		}
+		 
+		function loginCheck(){
+	        if(document.getElementById('username').value==""){
+	                elMsg.textContent= "Pleaes enter your LOGIN ID";
+	                document.getElementById('username').focus();
+	                return false;
+	        }
+	        if(document.getElementById('password').value==""){
+	                elMsg1.textContent = "Please enter your PASSWORD";
+	                document.getElementById('password').focus();
+	                return false;
+	        }
+	        if(document.getElementById('email').value==""){
+                	elMsg1.textContent = "Please enter your EMAIL";
+               	 document.getElementById('email').focus();
+               	 return false;
+       		}
+		}
+
+		var elUsername = document.getElementById('username'); // Get username input
+		elUsername.onblur = checkUsername;  // When it loses focus call checkuserName()
+		
+		var elSubmit = document.getElementById('submit');
+		elSubmit.onclick =loginCheck;
+	</script>
+  </body>
+</html>
