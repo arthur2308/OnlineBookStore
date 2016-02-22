@@ -6,9 +6,9 @@
   </head>
   <body>
     <div id="page">
-      <h1>List King</h1>
+      <h1>Create account</h1>
       <h2>New Account</h2>
-      <form method="post" name="form1" id="form1" action="loginProcess.jsp">
+      <form method="post" name="form1" id="form1" action="signupProcess.jsp">
 
         <label for="username">Create a username: </label>
         <input type="text" id="username" name="username" required/>
@@ -22,7 +22,7 @@
         <input type="text" id="email" name="email"  required/>
         <div id="feedback3" class="feedback"></div>
 
-        <input type="submit" id="submit" value="Login"/>
+        <input type="submit" id="submit" value="Signup"/>
 
       </form>
     </div>
@@ -38,7 +38,7 @@
 		  }
 		}
 		 
-		function loginCheck(){
+		function signUpCheck(){
 	        if(document.getElementById('username').value==""){
 	                elMsg.textContent= "Pleaes enter your LOGIN ID";
 	                document.getElementById('username').focus();
@@ -60,7 +60,7 @@
 		elUsername.onblur = checkUsername;  // When it loses focus call checkuserName()
 		
 		var elSubmit = document.getElementById('submit');
-		elSubmit.onclick =loginCheck;
+		elSubmit.onclick = signUpCheck;
 	</script>
   </body>
 </html>
