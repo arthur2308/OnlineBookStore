@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class userController
@@ -109,9 +110,11 @@ public class UserController extends HttpServlet {
 		User user = new User();
 		user.setUsername(request.getParameter(p_username));
 		user.setPass(request.getParameter(p_password).toCharArray());
+		HttpSession sess = request.getSession();
 		
 		if(UserDB.loginUser(user)){
 			url = "/success.jsp";
+			sess.setAttribute("User", user);
 		}
 		else {
 			url = "/fail.jsp";
