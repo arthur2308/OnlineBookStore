@@ -2,14 +2,21 @@
 <html>
   <head>
     <title>Events - Event Handler</title>
-    <link rel="stylesheet" href="css/c06.css" />
+    <style>
+    
+    body 
+    {
+    	background: Gainsboro;
+    }
+    
+    </style>
   </head>
   <body>
-    <div id="page">
+    <div id="page" align = "center">
       <h1>Book Store Login</h1>
       
       <form method="post" name="form1" id="form1" action="user/login">
-
+	
         <label for="username">Username </label>
         <input type="text" id="username" name="username" required/>
         <div id="feedback1" class="feedback"></div>
@@ -21,6 +28,7 @@
         <input type="submit" id="submit" value="Login"/>
 
       </form>
+      
     </div>
     <script>
    		var elMsg = document.getElementById('feedback1'); 
