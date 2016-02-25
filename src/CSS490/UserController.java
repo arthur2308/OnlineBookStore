@@ -14,7 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/userController")
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    
+	private final String p_username = "username";
+	private final String p_password = "password";
+	private final String p_email = "email";
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -44,6 +48,8 @@ public class UserController extends HttpServlet {
 			url = modifyUser(request);
 		}else if(requestURI.endsWith("delete")){
 			url = deleteUser(request);
+		}else if(requestURI.endsWith("login")){
+			url = loginUser(request);
 		}
 		
 		response.sendRedirect(url);
@@ -51,24 +57,22 @@ public class UserController extends HttpServlet {
 	
 	private String registerUser(HttpServletRequest request){
 		String url = "";
-		String username = request.getParameter("username");
-		char[] passwd = request.getParameter("passwd").toCharArray();
-		String name = request.getParameter("name");
-		String email = request.getParameter("email");
+		String username = request.getParameter(p_username);
+		char[] pass = request.getParameter(p_password).toCharArray();
+		String email = request.getParameter(p_email);
 		
 		int flag = 0;
 		flag = UserDB.checkUserAvail(username, email);
 		if(flag > 0){
-			url = "/registerError.jsp";
+			url = "/fail.jsp";
 		}else{
 			User user = new User();
 			
 			user.setUsername(username);
-			user.setPass(passwd);
-			user.setName(name);
+			user.setPass(pass);
 			user.setEmail(email);
 			if(UserDB.insertUser(user)){
-				url = "/listUsers.jsp";
+				url = "/success.jsp";
 			}
 		}
 		return url;
@@ -76,12 +80,11 @@ public class UserController extends HttpServlet {
 	
 	private String modifyUser(HttpServletRequest request){
 		String url = "";
-		String username = request.getParameter("username");
+		String username = request.getParameter(p_username);
 		User user = new User();
 		user.setUsername(username);
-		user.setPass(request.getParameter("passwd").toCharArray());
-		user.setName(request.getParameter("name"));
-		user.setEmail(request.getParameter("email"));
+		user.setPass(request.getParameter(p_password).toCharArray());
+		user.setEmail(request.getParameter(p_email));
 		int flag = 0;
 		flag = UserDB.modifyUser(user);
 		if(flag > 0){
@@ -92,11 +95,26 @@ public class UserController extends HttpServlet {
 	
 	private String deleteUser(HttpServletRequest request){
 		String url = "";
-		String username = request.getParameter("username");
+		String username = request.getParameter(p_username);
 		int flag = 0;
 		flag = UserDB.deleteUser(username);
 		if(flag > 0){
 			url = "/listUsers.jsp";
+		}
+		return url;
+	}
+	
+	private String loginUser(HttpServletRequest request){
+		String url = "";
+		User user = new User();
+		user.setUsername(request.getParameter(p_username));
+		user.setPass(request.getParameter(p_password).toCharArray());
+		
+		if(UserDB.loginUser(user)){
+			url = "/success.jsp";
+		}
+		else {
+			url = "/fail.jsp";
 		}
 		return url;
 	}
