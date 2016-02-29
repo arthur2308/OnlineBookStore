@@ -30,5 +30,7 @@
 	Genre: <% out.print(book.getCategory()); %> <br />
 	Price: <% out.print(book.getPrice()); %> <br />
 	Inventory: <% out.print(book.getInventory()); %> <br />
+	
+	<br /><a href=listBooks.jsp>List of books</a>
 </body>
 </html>
