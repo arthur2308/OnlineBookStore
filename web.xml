@@ -4693,4 +4693,14 @@
     	<servlet-name>UserController</servlet-name>
     	<url-pattern>/user/*</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+    	<servlet-name>CartController</servlet-name>
+    	<servlet-class>CSS490.CartController</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+    	<servlet-name>CartController</servlet-name>
+    	<url-pattern>/cart/*</url-pattern>
+    </servlet-mapping>
 </web-app>
