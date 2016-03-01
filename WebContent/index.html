@@ -89,26 +89,24 @@ body
 			</div> 
 			
 			<div id = searchBox>
-				
 				<img src="/Images/3D-Box-1.png" height="42" width="42">
 				<input type="text" style="width: 300px; height: 20px;" name="searchQuery">
 		  		<input type="submit" id = "search_button" value="Search"> 
 	  		</div>
+	  		
+	  		
 	  		<ul id="drop-nav">
 			  <li><a href="#">Support</a></li>
 			  <li><a href="#">Web Design</a>
 			    <ul>
 			      <li><a href="#">HTML</a></li>
 			      <li><a href="#">CSS</a></li>
-			      <li><a href="#">JavaScript</a></li>
 			    </ul>
 			  </li>
 			  <li><a href="#">Content Management</a>
 			    <ul>
 			      <li><a href="#">Joomla</a></li>
 			      <li><a href="#">Drupal</a></li>
-			      <li><a href="#">WordPress</a></li>
-			      <li><a href="#">Concrete 5</a></li>
 			    </ul>
 			  </li>
 			  <li><a href="#">Contact</a>
@@ -119,16 +117,36 @@ body
 			  </li>
 			</ul>
 			
+			
 	  	</div>
-	  	
 	  	<br><br><br><br><br>
 	  	<h2 align = "center"> Welcome to Amazon book store.</h2>
 	  	<br><br>
 	  	<h3> Featured: </h3>
 	  	
 		<br><br><br><br><br>LOREM IPSUM<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-		<br><br><br><br><br><br>LOREM IPSUM<br><br><br><br><br>LOREM IPSUM<br><br><br><br><br>LOREM IPSUM<br><br><br><br>
+		<br><br><br><br><br><br>LOREM IPSUM<br><br><br>
+	    <br><br>LOREM IPSUM<br><br><br><br><br>LOREM IPSUM<br><br><br><br>
 		<br><br><br>LOREM IPSUM<br><br><br><br><br>Hello, Welcome to the book store. You're on a home page.
+		
+		
+		<script>
+		window.onload = function() {
+			document.getElementById("authorization").style.visibility = "hidden";
+		var auth = document.getElementById('authorization'); 
+		auth.style.visibility = 'hidden';		// set css through javascrsipt
+		
+		
+		<% out.print("old man take a look at my life"); %>
+		
+		
+		
+		<%@ page import="CSS490.User" %>
+		<jsp:useBean id="user" class="CSS490.User"/>
+		
+			
+		}
+		</script>
 		
 	</body>
 </html>

@@ -1,13 +1,173 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page import="CSS490.User" %>
+<jsp:useBean id="user" class="CSS490.User"/>
+<jsp:useBean id="book" class="CSS490.Book"/>
+<%@ page import="CSS490.BookDB" %>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<style>
+#authorization
+{
+	float:right;
+	color:white;
+}
+
+#welcome_user
+{
+	float:right;
+	color:white;
+}
+
+a:link.red_box_link, a:visited.red_box_link
+{
+    background-color: #f44336;
+    color: white;
+    padding: 17px 25px;
+    text-align: center;	
+    text-decoration: none;
+    display: inline-block;
+}
+
+a:hover.red_box_link, a:active.red_box_link
+{
+    background-color: red;
+}
+
+#topBar
+{
+	position: fixed;
+	background-color: #333;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+h1 
+{
+	color:white;
+	display: inline-block;
+}
+
+body
+{
+	background: Gainsboro ; <!--#E0E0E0;--> 
+}
+
+#searchBox
+{
+	display:inline-block;
+	float:center;
+	padding-left:20em;
+}
+
+#search_button
+{
+
+	background-color: #f44336;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;	
+    text-decoration: none;
+    display: inline-block;
+    
+}
+
+  ul {list-style: none;padding: 0px;margin: 0px;}
+  ul li {display: block;position: relative;float: left;border:1px solid #333}
+  li ul {display: none;}
+  ul li a {display: block;background: #333;padding: 5px 10px 5px 10px;text-decoration: none;
+           white-space: nowrap;color: #fff;}
+  ul li a:hover {background: #f00;}
+  li:hover ul {display: block; position: absolute;}
+  li:hover li {float: none;}
+  li:hover a {background: #f00;}
+  li:hover li a:hover {background: #000;}
+  #drop-nav li ul li {border-top: 0px;}
+
+</style>
+<meta charset="UTF-8">
+<title>Home Page
+<% 
+	HttpSession sess = request.getSession();
+	user = (User) sess.getAttribute("User");			//check if the user is null to get if they're logged in 
+	book = BookDB.getBook(1);
+	%>
+</title>
 </head>
-<body>
-	<h1><%="This is my first JSP page" %></h1>
-	
-</body>
+	<body>
+		<div id = "topBar">
+			
+			<h1 align = "center" > Home Page </h1>
+			
+			<div id = "authorization"> 
+		  		<a href = "loginForm.html" class = "red_box_link">Login</a> 
+				<a href = "signupForm.html" class = "red_box_link">Sign Up</a> 
+			</div> 
+			
+			<div id = "welcome_user"> 
+		  		<p>Welcome, <% out.print(user.getUsername()); %></p>
+			</div> 
+			
+			
+			<div id = searchBox>
+				<img src="/Images/3D-Box-1.png" height="42" width="42">
+				<input type="text" style="width: 300px; height: 20px;" name="searchQuery">
+		  		<input type="submit" id = "search_button" value="Search"> 
+	  		</div>
+	  		
+	  		
+	  		<ul id="drop-nav">
+			  <li><a href="#">Support</a></li>
+			  <li><a href="#">Web Design</a>
+			    <ul>
+			      <li><a href="#">HTML</a></li>
+			      <li><a href="#">CSS</a></li>
+			    </ul>
+			  </li>
+			  <li><a href="#">Content Management</a>
+			    <ul>
+			      <li><a href="#">Joomla</a></li>
+			      <li><a href="#">Drupal</a></li>
+			    </ul>
+			  </li>
+			  <li><a href="#">Contact</a>
+			    <ul>
+			      <li><a href="#">General Inquiries</a></li>
+			      <li><a href="#">Ask me a Question</a></li>
+			    </ul>
+			  </li>
+			</ul>
+			
+			
+	  	</div>
+	  	<br><br><br><br><br>
+	  	<h2 align = "center"> Welcome to Amazon book store.</h2>
+	  	<br><br>
+	  	<h3> Featured: </h3>
+	  	<% out.print("old man take a look at my life"); %>
+		<br><br><br><br><br>LOREM IPSUM<br><br><br><br><br><br>
+		<br><br><br><br><br><br>LOREM IPSUM<br><br><br>
+	    <br><br>LOREM IPSUM<br><br>Username: <% out.print(user.getUsername()); %><br><br><br>LOREM IPSUM<br><br><br><br>
+		<br><br><br>LOREM IPSUM<br><br><br><br><br>Hello, Welcome to the book store. You're on a home page.
+		
+		
+		<script>
+		
+		
+		window.onload = function() {
+			if (user = null) 
+			{
+				document.getElementById("welcome_user").style.visibility = "hidden";			
+			}	
+			else
+			{
+				document.getElementById("authorization").style.visibility = "hidden";	
+			}
+		}
+		</script>
+		
+	</body>
 </html>

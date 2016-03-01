@@ -113,7 +113,7 @@ public class UserController extends HttpServlet {
 		HttpSession sess = request.getSession();
 		
 		if(UserDB.loginUser(user)){
-			url = "/success.jsp";
+			url = "/index.jsp";
 			sess.setAttribute("User", user);
 			Cart cart = new Cart();
 			cart.create(user.getUserId());
