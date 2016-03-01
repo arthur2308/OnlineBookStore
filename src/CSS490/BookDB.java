@@ -95,7 +95,10 @@ public class BookDB extends Database{
 				String query = "select * from book order by author;";
 				stmt = conn.prepareStatement(query);
 				rs = stmt.executeQuery();
-
+				
+				query = "select * from book_inventory where book_id = ?";
+				stmt2 = conn.prepareStatement(query);
+				
 				while(rs.next()){
 					Book b = new Book();
 					b.setProductId(rs.getInt("product_id"));
@@ -106,8 +109,7 @@ public class BookDB extends Database{
 					b.setCategory(rs.getString("category"));
 					
 					// gets the price and inventory
-					query = "select * from book_inventory where book_id = ?";
-					stmt2 = conn.prepareStatement(query);
+					
 					stmt2.setInt(1, b.getProductId());
 					rs2 = stmt2.executeQuery();
 					
@@ -117,8 +119,8 @@ public class BookDB extends Database{
 					}
 					
 					bookList.add(b);
-					closeAll(stmt2, null, rs2);
 				}
+				closeAll(stmt2, null, rs2);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

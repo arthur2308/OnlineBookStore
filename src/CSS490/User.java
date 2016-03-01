@@ -18,6 +18,7 @@ public class User implements Serializable{
 	final private int sizeOf_longhash = 80;
 	final private String hash_Algorithm = "PBKDF2WithHmacSHA512";
 	
+	private int userId;
 	private String username; 
 	private char[] pass; 
 	private byte[] hash;
@@ -28,6 +29,14 @@ public class User implements Serializable{
 	private String lastLogin;
 	
 	public User(){		
+	}
+	
+	public void setUserId(int id) {
+		userId = id;
+	}
+	
+	public int getUserId() {
+		return userId;
 	}
 	
 	public void setUsername(String username){

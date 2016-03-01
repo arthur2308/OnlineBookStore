@@ -53,7 +53,7 @@ public class UserDB extends Database{
 			//			conn = ds.getConnection();
 
 			if (connect()) {
-				String query = "select username, pass, email from customer where username = ?";
+				String query = "select * from customer where username = ?";
 				stmt = conn.prepareStatement(query);
 				stmt.setString(1, user.getUsername());
 
@@ -61,15 +61,18 @@ public class UserDB extends Database{
 
 				byte[] hashPass = null;
 				String email = null;
+				int id = -1;
 				while (rs.next())
 				{
 					hashPass = rs.getBytes("pass");
 					email = rs.getString("email");
+					id = rs.getInt("cust_id");
 				}
 
 				result = user.checkPass(hashPass);
 
 				if (result) {
+					user.setUserId(id);
 					user.setEmail(email);
 				}
 			}

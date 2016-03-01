@@ -12,18 +12,19 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class userController
  */
-@WebServlet("/userController")
-public class UserController extends HttpServlet {
+@WebServlet("/cartController")
+public class CartController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	private final String p_username = "username";
 	private final String p_password = "password";
 	private final String p_email = "email";
+	private Cart cart = null;
 	
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UserController() {
+    public CartController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,14 +44,14 @@ public class UserController extends HttpServlet {
 		String requestURI = request.getRequestURI();
 		System.out.println(requestURI); 
 		String url = "";
+		HttpSession sess = request.getSession();
+		cart = (Cart) sess.getAttribute("Cart");
 		if(requestURI.endsWith("register")){
 			url = registerUser(request);
 		}else if(requestURI.endsWith("modify")){
-			url = modifyUser(request);
-		}else if(requestURI.endsWith("delete")){
-			url = deleteUser(request);
-		}else if(requestURI.endsWith("login")){
-			url = loginUser(request);
+			url = modifyBook(request);
+		}else if(requestURI.endsWith("remove")){
+			url = removeBook(request);
 		}
 		
 		response.sendRedirect(url);
@@ -79,7 +80,7 @@ public class UserController extends HttpServlet {
 		return url;
 	}
 	
-	private String modifyUser(HttpServletRequest request){
+	private String modifyBook(HttpServletRequest request){
 		String url = "";
 		String username = request.getParameter(p_username);
 		User user = new User();
@@ -94,33 +95,14 @@ public class UserController extends HttpServlet {
 		return url;
 	}
 	
-	private String deleteUser(HttpServletRequest request){
+	private String removeBook(HttpServletRequest request){
 		String url = "";
-		String username = request.getParameter(p_username);
-		int flag = 0;
-		flag = UserDB.deleteUser(username);
-		if(flag > 0){
-			url = "/listUsers.jsp";
-		}
-		return url;
-	}
-	
-	private String loginUser(HttpServletRequest request){
-		String url = "";
-		User user = new User();
-		user.setUsername(request.getParameter(p_username));
-		user.setPass(request.getParameter(p_password).toCharArray());
-		HttpSession sess = request.getSession();
-		
-		if(UserDB.loginUser(user)){
-			url = "/success.jsp";
-			sess.setAttribute("User", user);
-			Cart cart = new Cart();
-			cart.create(user.getUserId());
-			sess.setAttribute("Cart", cart);
-		}
-		else {
-			url = "/fail.jsp";
+		String book = request.getParameter("book");
+		int book_id = Integer.parseInt(book);
+		boolean flag = false;
+		flag = cart.remove(book_id);
+		if(flag){
+			url = "/cart.jsp";
 		}
 		return url;
 	}
