@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="CSS490.User" %>
-		<jsp:useBean id="user" class="CSS490.User"/>
+<%@ page import="CSS490.User" %>
+<jsp:useBean id="user" class="CSS490.User"/>
+<jsp:useBean id="book" class="CSS490.Book"/>
+<%@ page import="CSS490.BookDB" %>
 <!DOCTYPE html>
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <style>
 #authorization
 {
@@ -87,8 +90,11 @@ body
 </style>
 <meta charset="UTF-8">
 <title>Home Page
-HttpSession sess = request.getSession();
-user = (User) sess.getAttribute("User");
+<% 
+	HttpSession sess = request.getSession();
+	user = (User) sess.getAttribute("User");			//check if the user is null to get if they're logged in 
+	book = BookDB.getBook(1);
+	%>
 </title>
 </head>
 	<body>
@@ -144,14 +150,22 @@ user = (User) sess.getAttribute("User");
 	  	<% out.print("old man take a look at my life"); %>
 		<br><br><br><br><br>LOREM IPSUM<br><br><br><br><br><br>
 		<br><br><br><br><br><br>LOREM IPSUM<br><br><br>
-	    <br><br>LOREM IPSUM<br><br><% out.print(user.getUsername()); %><br><br><br>LOREM IPSUM<br><br><br><br>
+	    <br><br>LOREM IPSUM<br><br>Username: <% out.print(user.getUsername()); %><br><br><br>LOREM IPSUM<br><br><br><br>
 		<br><br><br>LOREM IPSUM<br><br><br><br><br>Hello, Welcome to the book store. You're on a home page.
 		
 		
 		<script>
+		
+		
 		window.onload = function() {
-			if (false) document.getElementById("authorization").style.visibility = "hidden";		
-			else document.getElementById("welcome_user").style.visibility = "hidden";	
+			if (user = null) 
+			{
+				document.getElementById("welcome_user").style.visibility = "hidden";			
+			}	
+			else
+			{
+				document.getElementById("authorization").style.visibility = "hidden";	
+			}
 		}
 		</script>
 		
