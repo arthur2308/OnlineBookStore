@@ -11,7 +11,7 @@
 <title>Success</title>
 	<% 
 	HttpSession sess = request.getSession();
-	user = (User) sess.getAttribute("User");
+	user = (User) sess.getAttribute("User");			//check if the user is null to get if they're logged in 
 	book = BookDB.getBook(1);
 	%>
 </head>
