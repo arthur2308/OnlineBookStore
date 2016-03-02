@@ -8,10 +8,9 @@ import java.util.*;
 public class BookDB extends Database{
 
 	public static Book getBook(int productId) {
-		Book book = new Book();
+		Book book = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		book.setProductId(productId);
 		try{
 			if (connect()) {
 				String query = "select * from book where product_id = ?";
@@ -21,6 +20,8 @@ public class BookDB extends Database{
 				rs = stmt.executeQuery();
 
 				while(rs.next()){
+					book = new Book();
+					book.setProductId(productId);
 					book.setTitle(rs.getString("title"));
 					book.setAuthor(rs.getString("author"));
 					book.setPublisher(rs.getString("publisher"));

@@ -39,6 +39,12 @@
 		border-bottom: 2px solid #111111;
 	}
 </style>
+<script>
+	function addCart(book) {
+		document.getElementById("book").value = book;
+		document.addBook.submit();
+	}
+</script>
 </head>
 <body>
 <table id="list">
@@ -51,6 +57,7 @@
 		<th>Category</th>
 		<th>Price</th>
 		<th>Inventory</th>
+		<th></th>
 	</tr>
 <%
 	ArrayList<Book> bookList = BookDB.allBooks();
@@ -65,10 +72,16 @@
 	<td width="20%"><%=b.getCategory()%></td>
 	<td width="20%"><%=b.getPrice()%></td>
 	<td width="20%"><%=b.getInventory()%></td>
+	<td width="20%">
+		<a href="javascript:addCart('<%=b.getProductId()%>');">[add cart]</a>
+	</td>
 </tr>
 <%
 	}
 %>
 </table>
+<form name="addBook" method="post" action="cart/add">
+<input type="hidden" name="book" id="book">
+</form>
 </body>
 </html>

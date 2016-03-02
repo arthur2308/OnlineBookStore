@@ -31,9 +31,15 @@
 	%>
 <script>
 	function removeCart(book) {
-		document.getElementById("book").value = book;
+		document.getElementById("book2").value = book;
 		document.bookRemove.submit();
 	}
+	function modifyCart(book, quant) {
+		document.getElementById("book1").value = book;
+		document.getElementById("quantity").value = document.getElementById("number" + book).value;
+		document.bookModify.submit();
+	}
+	
 </script>
 </head>
 <body>
@@ -54,6 +60,7 @@
 	ArrayList<CartItem> bookList = cart.getCart();
 	for(CartItem item:bookList){
 		Book b = item.getBook();
+		int book_id = b.getProductId();
 %>
 <tr>
 	<td width="20%"><%=b.getProductId()%></td>
@@ -63,9 +70,15 @@
 	<td width="20%"><%=b.getPublishYear()%></td>
 	<td width="20%"><%=b.getCategory()%></td>
 	<td width="20%"><%=b.getPrice()%></td>
-	<td width="20%"><%=item.getQuantity()%></td>
+	<td width="20%"><%=item.getQuantity()%>
+		<input type="number" name="number<%=b.getProductId()%>" id="number<%=b.getProductId()%>" 
+				value="<%=item.getQuantity()%>"
+				onblur="javascript:modifyCart('<%=b.getProductId()%>');"
+				onkeydown="if (event.keyCode == 13) {modifyCart('<%=b.getProductId()%>');}"
+				min="0" max="100" >
+	</td>
 	<td width="20%">
-		<a href="javascript:removeCart('<%=b.getProductId()%>');">[delete]</a>
+		<a href="javascript:removeCart('<%=b.getProductId()%>');">[remove]</a>
 	</td>
 </tr>
 <%
@@ -73,7 +86,11 @@
 %>
 </table>
 <form name="bookRemove" method="post" action="cart/remove">
-<input type="hidden" name="book" id="book">
+<input type="hidden" name="book2" id="book2">
 </form>
+<form name="bookModify" method="post" action="cart/modify">
+			<input type="hidden" name="book1" id="book1">
+			<input type="hidden" name="quantity" id="quantity">
+		</form>
 </body>
 </html>

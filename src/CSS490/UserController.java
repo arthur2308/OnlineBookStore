@@ -115,8 +115,8 @@ public class UserController extends HttpServlet {
 		if(UserDB.loginUser(user)){
 			url = "/index.jsp";
 			sess.setAttribute("User", user);
-			Cart cart = new Cart();
-			cart.create(user.getUserId());
+			Cart cart = null;
+			cart = CartDB.get(user.getUserId());
 			sess.setAttribute("Cart", cart);
 		}
 		else {

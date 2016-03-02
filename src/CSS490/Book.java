@@ -78,4 +78,8 @@ public class Book {
 	public int getInventory() {
 		return inventory;
 	}
+	
+	public boolean equals(Book b) {
+		return productId == b.getProductId();
+	}
 }

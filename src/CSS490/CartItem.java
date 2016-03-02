@@ -34,6 +34,6 @@ public class CartItem {
 	}
 	
 	public boolean equals(Book b) {
-		return book == b;
+		return book.equals(b);
 	}
 }

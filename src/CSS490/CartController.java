@@ -46,64 +46,66 @@ public class CartController extends HttpServlet {
 		String url = "";
 		HttpSession sess = request.getSession();
 		cart = (Cart) sess.getAttribute("Cart");
-		if(requestURI.endsWith("register")){
-			url = registerUser(request);
+		if(requestURI.endsWith("add")){
+			url = addBook(request);
 		}else if(requestURI.endsWith("modify")){
-			url = modifyBook(request);
+			url = modifyQuant(request);
 		}else if(requestURI.endsWith("remove")){
 			url = removeBook(request);
 		}
-		
+		CartDB.set(cart);
 		response.sendRedirect(url);
 	}
 	
-	private String registerUser(HttpServletRequest request){
+	private String addBook(HttpServletRequest request){
 		String url = "";
-		String username = request.getParameter(p_username);
-		char[] pass = request.getParameter(p_password).toCharArray();
-		String email = request.getParameter(p_email);
-		
-		int flag = 0;
-		flag = UserDB.checkUserAvail(username, email);
-		if(flag > 0){
-			url = "/fail.jsp";
-		}else{
-			User user = new User();
-			
-			user.setUsername(username);
-			user.setPass(pass);
-			user.setEmail(email);
-			if(UserDB.insertUser(user)){
-				url = "/success.jsp";
+		String book = request.getParameter("book");
+		int book_id = Integer.parseInt(book);
+		boolean flag = false;
+		Book b = BookDB.getBook(book_id);
+		if (b != null) {
+			if (b.getInventory() > 0) {
+				flag = cart.add(b);
 			}
+		}
+		if(flag){
+			url = "/cart.jsp";
 		}
 		return url;
 	}
 	
-	private String modifyBook(HttpServletRequest request){
+	private String modifyQuant(HttpServletRequest request){
 		String url = "";
-		String username = request.getParameter(p_username);
-		User user = new User();
-		user.setUsername(username);
-		user.setPass(request.getParameter(p_password).toCharArray());
-		user.setEmail(request.getParameter(p_email));
-		int flag = 0;
-		flag = UserDB.modifyUser(user);
-		if(flag > 0){
-			url = "/listUsers.jsp";
+		String book = request.getParameter("book1");
+		String s_quant = request.getParameter("quantity");
+		int book_id = Integer.parseInt(book);
+		int quantity = Integer.parseInt(s_quant);
+		boolean flag = false;
+		Book b = BookDB.getBook(book_id);
+		if (b != null) {
+			if (b.getInventory() > 0) {
+				flag = cart.modify(b, quantity);
+			}
+		}
+		if(flag){
+			url = "/cart.jsp";
 		}
 		return url;
 	}
 	
 	private String removeBook(HttpServletRequest request){
 		String url = "";
-		String book = request.getParameter("book");
+		String book = request.getParameter("book2");
 		int book_id = Integer.parseInt(book);
+		int user_id = cart.getUserId();
 		boolean flag = false;
-		flag = cart.remove(book_id);
+		if (CartDB.remove(user_id, book_id)) {
+			flag = cart.remove(book_id);
+		}
 		if(flag){
 			url = "/cart.jsp";
 		}
 		return url;
 	}
+	
 }
