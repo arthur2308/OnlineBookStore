@@ -44,6 +44,7 @@
 </head>
 <body>
 <h1>Cart for user:  <% out.print(user.getUsername()); %></h1>
+<p>Cart size: <% out.print(cart.getSize()); %></p>
 <table id="list">
 	<tr>
 		<th>Product Id</th>
@@ -54,6 +55,7 @@
 		<th>Category</th>
 		<th>Price</th>
 		<th>Quantity</th>
+		<th>Total</th>
 		<th></th>
 	</tr>
 <%
@@ -77,6 +79,7 @@
 				onkeydown="if (event.keyCode == 13) {modifyCart('<%=b.getProductId()%>');}"
 				min="0" max="100" >
 	</td>
+	<td width="20%"><%=(b.getPrice() * item.getQuantity())%></td>
 	<td width="20%">
 		<a href="javascript:removeCart('<%=b.getProductId()%>');">[remove]</a>
 	</td>
@@ -84,13 +87,23 @@
 <%
 	}
 %>
+	<tr>
+		<th colspan="8"><span class="pull-right">Sub Total</span></th>
+		<th><%=cart.getTotal()%></th>
+		<td>
+			<form name="buyCart" method="post" action="cart/buy">
+				<input type="submit" id="submit" value="Buy"/>
+			</form>
+		</td>
+	</tr>
 </table>
 <form name="bookRemove" method="post" action="cart/remove">
 <input type="hidden" name="book2" id="book2">
 </form>
 <form name="bookModify" method="post" action="cart/modify">
-			<input type="hidden" name="book1" id="book1">
-			<input type="hidden" name="quantity" id="quantity">
-		</form>
+	<input type="hidden" name="book1" id="book1">
+	<input type="hidden" name="quantity" id="quantity">
+</form>
+
 </body>
 </html>

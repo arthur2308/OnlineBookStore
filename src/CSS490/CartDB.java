@@ -13,7 +13,7 @@ public class CartDB extends Database{
 		ResultSet rs = null;
 		ResultSet rsbook = null;
 		ResultSet rsprice = null;
-		Cart cart = null;
+		Cart cart = new Cart(userId);;
 		try{
 			if (connect()) {
 				String query = "select * from cart where customer_id = ?;";
@@ -26,7 +26,6 @@ public class CartDB extends Database{
 				stmtbook = conn.prepareStatement(bookquery);
 				stmtprice = conn.prepareStatement(pricequery);
 				
-				cart = new Cart(userId);
 				while(rs.next()){
 					stmtbook.setInt(1, rs.getInt("book_id"));
 					rsbook = stmtbook.executeQuery();
@@ -125,6 +124,29 @@ public class CartDB extends Database{
 				stmt = conn.prepareStatement(query);
 				stmt.setInt(1, user_id);
 				stmt.setInt(2, book_id);
+				
+				int i = stmt.executeUpdate();
+				if (i > 0) {
+					result = true;
+				}
+			}
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn, null);
+		}
+		return result;
+	}
+	
+	public static boolean removeAll(int user_id) {
+		boolean result = false;
+		PreparedStatement stmt = null;
+		try{
+			if (connect()) {
+				String query = "delete from cart where customer_id = ?";
+				stmt = conn.prepareStatement(query);
+				stmt.setInt(1, user_id);
 				
 				int i = stmt.executeUpdate();
 				if (i > 0) {

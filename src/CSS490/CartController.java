@@ -48,10 +48,12 @@ public class CartController extends HttpServlet {
 		cart = (Cart) sess.getAttribute("Cart");
 		if(requestURI.endsWith("add")){
 			url = addBook(request);
-		}else if(requestURI.endsWith("modify")){
+		} else if(requestURI.endsWith("modify")){
 			url = modifyQuant(request);
-		}else if(requestURI.endsWith("remove")){
+		} else if(requestURI.endsWith("remove")){
 			url = removeBook(request);
+		} else if(requestURI.endsWith("buy")){
+			url = buyCart(request);
 		}
 		CartDB.set(cart);
 		response.sendRedirect(url);
@@ -108,4 +110,19 @@ public class CartController extends HttpServlet {
 		return url;
 	}
 	
+	private String buyCart(HttpServletRequest request){
+		String url = "";
+		if (cart.getSize() != 0) {
+			int user_id = cart.getUserId();
+			Transaction trans = new Transaction(user_id, null, cart.getTotal(), cart);
+			boolean flag = TransactionDB.create(trans);
+			if (CartDB.removeAll(user_id)) {
+				cart.clear();
+			}
+			if(flag){
+				url = "/cart.jsp";
+			}
+		}
+		return url;
+	}
 }

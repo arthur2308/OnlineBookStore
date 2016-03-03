@@ -185,7 +185,7 @@ body
 		{
 			window.location.reload();
 			<%
-			sess.invalidate();
+			//sess.invalidate();
 			%>
 		}
 		<!-- 
