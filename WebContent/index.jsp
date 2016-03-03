@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="CSS490.User" %>
+<%@ page import="javax.swing.text.html.HTMLDocument" %>
 <jsp:useBean id="user" class="CSS490.User"/>
 <jsp:useBean id="book" class="CSS490.Book"/>
 <%@ page import="CSS490.BookDB" %>
@@ -102,13 +103,38 @@ body
 			
 			<h1 align = "center" > Home Page </h1>
 			
-			<div id = "authorization"> 
-		  		<a href = "loginForm.html" class = "red_box_link">Login</a> 
-				<a href = "signupForm.html" class = "red_box_link">Sign Up</a> 
-			</div> 
+			<!--  authorization was here put it back here, the whole div  -->
 			
 			<div id = "welcome_user"> 
-		  		<p>Welcome, <% out.print(user.getUsername()); %></p>
+		  		<p>
+		  		
+		  		<%
+		  		
+		  		//HTMLDocument doc = new HTMLDocument(); 
+		  		//doc.getElement("authorization").
+		  		try {
+		  			out.print("Hello, " + user.getUsername());
+		  			%>
+		  			<br><button id = "logout" onclick="signOut()">Sign out</button>
+		  			
+		  			 <% 
+		  		} catch (NullPointerException e)
+		  		{ 
+		  		
+		  		%>
+		  		<div id = "authorization"> 
+		  			<a href = "loginForm.html" class = "red_box_link">Login</a> 
+					<a href = "signupForm.html" class = "red_box_link">Sign Up</a> 
+				</div> 
+		  		
+		  		<%
+		  		} 
+
+	  			//document.getElementById("authorization").style.visibility = "hidden";
+	  			//out.print("Null pointer exception has happened!: " + e);
+		  		%>
+		  			
+		  		
 			</div> 
 			
 			
@@ -150,24 +176,27 @@ body
 	  	<% out.print("old man take a look at my life"); %>
 		<br><br><br><br><br>LOREM IPSUM<br><br><br><br><br><br>
 		<br><br><br><br><br><br>LOREM IPSUM<br><br><br>
-	    <br><br>LOREM IPSUM<br><br>Username: <% out.print(user.getUsername()); %><br><br><br>LOREM IPSUM<br><br><br><br>
+	    <br><br>LOREM IPSUM<br><br><br><br><br>LOREM IPSUM<br><br><br><br>
 		<br><br><br>LOREM IPSUM<br><br><br><br><br>Hello, Welcome to the book store. You're on a home page.
 		
 		
 		<script>
-		
-		
-		window.onload = function() {
-			if (user = null) 
-			{
-				document.getElementById("welcome_user").style.visibility = "hidden";			
-			}	
-			else
-			{
-				document.getElementById("authorization").style.visibility = "hidden";	
-			}
+		function signOut()
+		{
+			window.location.reload();
+			<%
+			sess.invalidate();
+			%>
 		}
+		<!-- 
+		window.onload = function() {
+			if (user != null) 
+			{
+				document.getElementById("authorization").style.visibility = "hidden";			
+			}	
+		}
+		-->
 		</script>
-		
+		 
 	</body>
 </html>
