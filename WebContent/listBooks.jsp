@@ -65,7 +65,7 @@
 %>
 <tr>
 	<td width="20%"><%=b.getProductId()%></td>
-	<td width="20%"><%=b.getTitle()%></td>
+	<td width="20%"><a href="bookDetails.jsp?<%=b.getProductId()%>"><%=b.getTitle()%><a></td>
 	<td width="20%"><%=b.getAuthor()%></td>
 	<td width="20%"><%=b.getPublisher()%></td>
 	<td width="20%"><%=b.getPublishYear()%></td>

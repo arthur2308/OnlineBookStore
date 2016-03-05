@@ -23,6 +23,9 @@
 		border-top: 1px solid #999;
 		text-align: left;
 	}
+	input[type=number]{
+    width: 50%;
+} 
 </style>
 <% 
 	HttpSession sess = request.getSession();
@@ -55,7 +58,7 @@
 		<th>Category</th>
 		<th>Price</th>
 		<th>Quantity</th>
-		<th>Total</th>
+		<th>Subtotal</th>
 		<th></th>
 	</tr>
 <%
@@ -72,7 +75,7 @@
 	<td width="20%"><%=b.getPublishYear()%></td>
 	<td width="20%"><%=b.getCategory()%></td>
 	<td width="20%"><%=b.getPrice()%></td>
-	<td width="20%"><%=item.getQuantity()%>
+	<td width="20%"><%=item.getQuantity()%> - 
 		<input type="number" name="number<%=b.getProductId()%>" id="number<%=b.getProductId()%>" 
 				value="<%=item.getQuantity()%>"
 				onblur="javascript:modifyCart('<%=b.getProductId()%>');"
@@ -88,13 +91,13 @@
 	}
 %>
 	<tr>
-		<th colspan="8"><span class="pull-right">Sub Total</span></th>
+		<th colspan="8"><span style="float:right">Total</span></th>
 		<th><%=cart.getTotal()%></th>
-		<td>
+		<th>
 			<form name="buyCart" method="post" action="cart/buy">
 				<input type="submit" id="submit" value="Buy"/>
 			</form>
-		</td>
+		</th>
 	</tr>
 </table>
 <form name="bookRemove" method="post" action="cart/remove">

@@ -4703,4 +4703,14 @@
     	<servlet-name>CartController</servlet-name>
     	<url-pattern>/cart/*</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+    	<servlet-name>BookRatingController</servlet-name>
+    	<servlet-class>CSS490.BookRatingController</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+    	<servlet-name>BookRatingController</servlet-name>
+    	<url-pattern>/bookrating/*</url-pattern>
+    </servlet-mapping>
 </web-app>

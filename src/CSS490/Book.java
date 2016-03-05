@@ -1,5 +1,7 @@
 package CSS490;
 
+import java.util.ArrayList;
+
 public class Book {
 
 	private int productId;
@@ -10,9 +12,10 @@ public class Book {
 	private String category;
 	private double price;
 	private int inventory;
-	// create book_ratings class
+	private ArrayList<BookRating> rating;
 
 	public Book() {
+		rating = new ArrayList<BookRating>();
 	}
 	
 	public void setProductId(int productId) {
@@ -81,5 +84,13 @@ public class Book {
 	
 	public boolean equals(Book b) {
 		return productId == b.getProductId();
+	}
+	
+	public void addRating(BookRating br) {
+		this.rating.add(br);
+	}
+	
+	public ArrayList<BookRating> getRating() {
+		return rating;
 	}
 }

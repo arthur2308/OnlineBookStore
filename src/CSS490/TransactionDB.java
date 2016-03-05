@@ -12,7 +12,10 @@ public class TransactionDB extends Database {
 		PreparedStatement stmtTran = null;
 		PreparedStatement stmtLog = null;
 		PreparedStatement stmtSel = null;
+		PreparedStatement stmtUpd = null;
+		PreparedStatement stmtInv = null;
 		ResultSet rs = null;
+		ResultSet rsb = null;
 		
 		boolean result = false;
 		try{
@@ -20,6 +23,8 @@ public class TransactionDB extends Database {
 				String insTran = "insert into transaction_list values (0, ?, ?, ?)";
 				String insLog = "insert into transaction_log values (?, ?, ?, ?, ?)";
 				String select = "select * from transaction_list where customer_id = ? AND _date = ?";
+				String bookInv = "select * from book_inventory where book_id = ?";
+				String bookUpd = "update book_inventory set inven_amount = ? where book_id = ?";
 				
 				Date dt = new java.util.Date();
 				SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -28,6 +33,8 @@ public class TransactionDB extends Database {
 				stmtTran = conn.prepareStatement(insTran);
 				stmtLog = conn.prepareStatement(insLog);
 				stmtSel = conn.prepareStatement(select);
+				stmtUpd = conn.prepareStatement(bookUpd);
+				stmtInv = conn.prepareStatement(bookInv);
 				
 				stmtTran.setInt(1, trans.getUserId());
 				stmtTran.setString(2, currentTime);
@@ -48,12 +55,27 @@ public class TransactionDB extends Database {
 				for (CartItem i:items) {
 					double price = i.getBook().getPrice();
 					int quantity = i.getQuantity();
-					stmtLog.setInt(1, trans_id);
-					stmtLog.setInt(2, i.getBook().getProductId());
-					stmtLog.setDouble(3, price);
-					stmtLog.setInt(4, quantity);
-					stmtLog.setDouble(5, price * quantity);
-					stmtLog.executeUpdate();
+					
+					stmtInv.setInt(1, i.getBook().getProductId());
+					rsb = stmtInv.executeQuery();
+					int currQ = -1;
+					while (rsb.next()) {
+						currQ = rsb.getInt("inven_amount");
+					}
+					
+					if (currQ > quantity) {
+						stmtLog.setInt(1, trans_id);
+						stmtLog.setInt(2, i.getBook().getProductId());
+						stmtLog.setDouble(3, price);
+						stmtLog.setInt(4, quantity);
+						stmtLog.setDouble(5, price * quantity);
+						stmtLog.executeUpdate();
+						
+						int newQuantity = currQ - quantity;
+						stmtUpd.setInt(1, newQuantity);
+						stmtUpd.setInt(2, i.getBook().getProductId());
+						stmtUpd.executeUpdate();
+					}
 				}
 				result = true;
 			}
@@ -63,6 +85,7 @@ public class TransactionDB extends Database {
 			closeAll(stmtTran, conn, rs);
 			closeAll(stmtLog, null);
 			closeAll(stmtSel, null);
+			closeAll(stmtUpd, null);
 		}
 		return result;
 	}

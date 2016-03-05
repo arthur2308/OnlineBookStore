@@ -9,42 +9,44 @@ public class BookDB extends Database{
 
 	public static Book getBook(int productId) {
 		Book book = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		PreparedStatement stmtBk = null;
+		PreparedStatement stmtInv = null;
+		ResultSet rsBk = null;
+		ResultSet rsInv = null;
 		try{
 			if (connect()) {
-				String query = "select * from book where product_id = ?";
-				stmt = conn.prepareStatement(query);
+				String selBook = "select * from book where product_id = ?";
+				String selInv = "select * from book_inventory where book_id = ?";
+				stmtBk = conn.prepareStatement(selBook);
+				stmtInv = conn.prepareStatement(selInv);
+				
+				stmtBk.setInt(1, productId);
+				rsBk = stmtBk.executeQuery();
 
-				stmt.setInt(1, productId);
-				rs = stmt.executeQuery();
-
-				while(rs.next()){
+				while(rsBk.next()){
 					book = new Book();
 					book.setProductId(productId);
-					book.setTitle(rs.getString("title"));
-					book.setAuthor(rs.getString("author"));
-					book.setPublisher(rs.getString("publisher"));
-					book.setPublishYear(rs.getInt("publish_year"));
-					book.setCategory(rs.getString("category"));
+					book.setTitle(rsBk.getString("title"));
+					book.setAuthor(rsBk.getString("author"));
+					book.setPublisher(rsBk.getString("publisher"));
+					book.setPublishYear(rsBk.getInt("publish_year"));
+					book.setCategory(rsBk.getString("category"));
 				}
 				
-				closeAll(stmt, null, rs);
 				
-				query = "select * from book_inventory where book_id = ?";
-				stmt = conn.prepareStatement(query);
-				stmt.setInt(1, productId);
-				rs = stmt.executeQuery();
+				stmtInv.setInt(1, productId);
+				rsInv = stmtInv.executeQuery();
 				
-				while(rs.next()) {
-					book.setPrice(rs.getDouble("price"));
-					book.setInventory(rs.getInt("inven_amount"));
+				while(rsInv.next()) {
+					book.setPrice(rsInv.getDouble("price"));
+					book.setInventory(rsInv.getInt("inven_amount"));
 				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
-			closeAll(stmt,conn,rs);
+			closeAll(stmtBk,conn,rsBk);
+			closeAll(stmtInv,null,rsInv);
 		}
 		return book;
 	}

@@ -46,22 +46,28 @@ public class CartController extends HttpServlet {
 		String url = "";
 		HttpSession sess = request.getSession();
 		cart = (Cart) sess.getAttribute("Cart");
-		if(requestURI.endsWith("add")){
-			url = addBook(request);
-		} else if(requestURI.endsWith("modify")){
-			url = modifyQuant(request);
-		} else if(requestURI.endsWith("remove")){
-			url = removeBook(request);
-		} else if(requestURI.endsWith("buy")){
-			url = buyCart(request);
+		if (cart != null) {
+			if(requestURI.endsWith("add")){
+				url = addBook(request);
+			} else if(requestURI.endsWith("modify")){
+				url = modifyQuant(request);
+			} else if(requestURI.endsWith("remove")){
+				url = removeBook(request);
+			} else if(requestURI.endsWith("buy")){
+				url = buyCart(request);
+			}
+			CartDB.set(cart);
 		}
-		CartDB.set(cart);
+		else {
+			url = "/index.jsp";
+		}
 		response.sendRedirect(url);
 	}
 	
 	private String addBook(HttpServletRequest request){
 		String url = "";
 		String book = request.getParameter("book");
+		System.out.println(book);
 		int book_id = Integer.parseInt(book);
 		boolean flag = false;
 		Book b = BookDB.getBook(book_id);
