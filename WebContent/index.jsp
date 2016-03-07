@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="CSS490.User" %>
+<%@ page import="CSS490.Cart" %>
 <%@ page import="javax.swing.text.html.HTMLDocument" %>
 <jsp:useBean id="user" class="CSS490.User"/>
 <jsp:useBean id="book" class="CSS490.Book"/>
+<jsp:useBean id="cart" class="CSS490.Cart"/>
 <%@ page import="CSS490.BookDB" %>
 <!DOCTYPE html>
 <html>
@@ -88,6 +90,12 @@ body
   li:hover li a:hover {background: #000;}
   #drop-nav li ul li {border-top: 0px;}
 
+
+#acct 
+{
+	Color:white;
+}
+
 </style>
 <meta charset="UTF-8">
 <title>Home Page
@@ -95,6 +103,7 @@ body
 	HttpSession sess = request.getSession();
 	user = (User) sess.getAttribute("User");			//check if the user is null to get if they're logged in 
 	book = BookDB.getBook(1);
+	cart = (Cart) sess.getAttribute("Cart");
 	%>
 </title>
 </head>
@@ -113,10 +122,14 @@ body
 		  		//HTMLDocument doc = new HTMLDocument(); 
 		  		//doc.getElement("authorization").
 		  		try {
-		  			out.print("Hello, " + user.getUsername());
+		  			out.print("Hello, " + user.getUsername() + " - ");
 		  			%>
-		  			<br><button id = "logout" onclick="signOut()">Sign out</button>
-		  			
+		  			<!-- <br><button id = "logout" onclick="signOut()">Sign out</button> --> 
+		  			<a href = "/cart.jsp" id = "acct">Cart </a>
+		  			<%
+		  			out.println("(" + cart.getSize() + ") - ");
+		  			%>
+		  			<a href = "javascript:signOut()" id = "acct" >Sign Out </a>
 		  			 <% 
 		  		} catch (NullPointerException e)
 		  		{ 
@@ -181,12 +194,15 @@ body
 		
 		
 		<script>
+		
+		// sigs a user out 
 		function signOut()
 		{
-			window.location.reload();
+			alert("ssuccesfully signed out!");
 			<%
 			//sess.invalidate();
 			%>
+			window.location.reload();
 		}
 		<!-- 
 		window.onload = function() {
