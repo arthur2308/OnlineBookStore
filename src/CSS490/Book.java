@@ -13,9 +13,19 @@ public class Book {
 	private double price;
 	private int inventory;
 	private ArrayList<BookRating> rating;
+	private double avgRating;
 
 	public Book() {
 		rating = new ArrayList<BookRating>();
+		productId = -1;
+		title = "";
+		author = "";
+		publisher = "";
+		publishYear = -1;
+		category = "";
+		price = -1;
+		inventory = 0;
+		avgRating = 0;
 	}
 	
 	public void setProductId(int productId) {
@@ -92,5 +102,13 @@ public class Book {
 	
 	public ArrayList<BookRating> getRating() {
 		return rating;
+	}
+	
+	public void setAvgRating(double rating) {
+		this.avgRating = rating;
+	}
+	
+	public double getAvgRating() {
+		return avgRating;
 	}
 }

@@ -204,7 +204,7 @@ public class UserDB extends Database{
 		ResultSet rs = null;
 		try{
 			if (connect()) {
-				stmt = conn.prepareStatement("select * from user where username = ? or email = ?");
+				stmt = conn.prepareStatement("select * from customer where username = ? or email = ?");
 				stmt.setString(1, username);
 				stmt.setString(2, email);
 				rs = stmt.executeQuery();

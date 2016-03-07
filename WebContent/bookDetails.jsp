@@ -96,10 +96,14 @@ span#submit-button {
 }
 textarea#comment {
 	width: 92%;
-	height: 100%
+	height: 100%;
+	color: gray;
 }
 div#addcartlink {
 	text-align: center;
+}
+span#comment-text {
+	color: gray;
 }
 </style>
 </head>
@@ -108,40 +112,58 @@ div#addcartlink {
 	HttpSession sess = request.getSession();
 	User user = (User) sess.getAttribute("User");
 	String s_bid = request.getQueryString();
-	int book_id = Integer.parseInt(s_bid);
+	int book_id = -1;
+	try {
+		book_id = Integer.parseInt(s_bid);
+	}
+	catch (Exception e) {
+		response.sendRedirect("/index.jsp");
+		return;
+	}
 	Book book = BookDB.getBook(book_id);
+	if (book == null) {
+		response.sendRedirect("/index.jsp");
+		return;
+	}
 	BookRatingDB.getRating(book);
 	
 	int user_id = -1;
 	if (user != null) {
 		user_id = user.getUserId();
 	}
+	int avgRating = 0;
 %>
-<table width="1000" height="200">
+<table width="1000" height="300">
 	<tr>
-		<td class="pic" rowspan="5">X</td>
+		<td class="pic" rowspan="7">X</td>
 		<th class="label">Title</th>
-		<td class="info"><%=book.getTitle()%></td>
-		<td class="price">Price</td>
+		<td class="info" colspan="2"><%=book.getTitle()%></td>
 	</tr>
 	<tr>
 		<th class="label">Author</th>
-		<td class="info"><%=book.getAuthor()%></td>
-		<td class="price"><%=book.getPrice()%></td>
+		<td class="info" colspan="2"><%=book.getAuthor()%></td>
 	</tr>
 	<tr>
 		<th class="label">Genre</th>
-		<td class="info"><%=book.getCategory()%></td>
-		<td class="price" rowspan="3"><div id="addcartlink">
-			<a href="javascript:addCart('<%=book_id%>');">[add cart]</a></div></td>
+		<td class="info" colspan="2"><%=book.getCategory()%></td>
 	</tr>
 	<tr>
 		<th class="label">Publisher</th>
-		<td class="info"><%=book.getPublisher()%></td>
+		<td class="info" colspan="2"><%=book.getPublisher()%></td>
 	</tr>
 	<tr>
 		<th class="label">Publish year</th>
-		<td class="info"><%=book.getPublishYear()%></td>
+		<td class="info" colspan="2"><%=book.getPublishYear()%></td>
+	</tr>
+	<tr>
+		<th class="label">Average rating</th>
+		<td><%=book.getAvgRating()%></td>
+		<td class="price" rowspan="2"><div id="addcartlink">
+			<a href="javascript:addCart('<%=book_id%>');">[add cart]</a></div></td>
+	</tr>
+	<tr>
+		<th class="label">Price</th>
+		<td class="price"><%=book.getPrice()%></td>
 	</tr>
 </table>
 
@@ -173,6 +195,7 @@ div#addcartlink {
 	<%
 		ArrayList<BookRating> ratingList = book.getRating();
 		for(BookRating br:ratingList){
+			avgRating++;
 	%>
 			<tr>
 				<td>User rating:</td>
@@ -234,6 +257,7 @@ div#addcartlink {
 	
 	function clearContents(element) {
 		element.value = '';
+		element.style = "color: black;";
 	}
 </script>
 <form name="addBook" method="post" action="cart/add">

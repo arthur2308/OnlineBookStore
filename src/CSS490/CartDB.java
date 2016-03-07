@@ -61,11 +61,15 @@ public class CartDB extends Database{
 		return cart;
 	}
 	
-	public static void set(Cart cart) {
+	public static boolean set(Cart cart) {
 		PreparedStatement stmtIns = null;
 		PreparedStatement stmtUpd = null;
 		PreparedStatement stmtSel = null;
+		boolean result = false;
 		ResultSet rs = null;
+		if (cart.getUserId() < 0) {
+			return false;
+		}
 		try{
 			if (connect()) {
 				ArrayList<CartItem> items = cart.getCart();
@@ -104,6 +108,7 @@ public class CartDB extends Database{
 						stmtIns.executeUpdate();
 					}
 				}
+				result = true;
 			}
 
 		}catch(Exception e){
@@ -113,6 +118,7 @@ public class CartDB extends Database{
 			closeAll(stmtUpd, null);
 			closeAll(stmtSel, null);
 		}
+		return result;
 	}
 	
 	public static boolean remove(int user_id, int book_id) {

@@ -198,11 +198,7 @@ body
 		// sigs a user out 
 		function signOut()
 		{
-			alert("ssuccesfully signed out!");
-			<%
-			//sess.invalidate();
-			%>
-			window.location.reload();
+			document.logoutUser.submit();
 		}
 		<!-- 
 		window.onload = function() {
@@ -213,6 +209,7 @@ body
 		}
 		-->
 		</script>
-		 
+		<form name="logoutUser" method="post" action="user/logout">
+		</form>
 	</body>
 </html>

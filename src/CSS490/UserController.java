@@ -51,6 +51,8 @@ public class UserController extends HttpServlet {
 			url = deleteUser(request);
 		}else if(requestURI.endsWith("login")){
 			url = loginUser(request);
+		}else if(requestURI.endsWith("logout")){
+			url = logoutUser(request);
 		}
 		
 		response.sendRedirect(url);
@@ -122,6 +124,16 @@ public class UserController extends HttpServlet {
 		else {
 			url = "/fail.jsp";
 		}
+		return url;
+	}
+	
+	private String logoutUser(HttpServletRequest request){
+		String url = "/index.jsp";
+		HttpSession sess = request.getSession();
+		
+		sess.removeAttribute("User");
+		sess.removeAttribute("Cart");
+		
 		return url;
 	}
 }

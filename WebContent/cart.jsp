@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <style>
 	table {
-				width: 800px;
+				width: 1000px;
 				margin: auto;
 				border-collapse: collapse;
 				}
@@ -31,6 +31,15 @@
 	HttpSession sess = request.getSession();
 	User user = (User) sess.getAttribute("User");
 	Cart cart = (Cart) sess.getAttribute("Cart");
+	String username = "Guest";
+	if (user != null) {
+		username = user.getUsername();
+	}
+	if (cart == null) {
+		System.out.println("cart was null");
+		cart = new Cart();
+		sess.setAttribute("Cart", cart);
+	}
 	%>
 <script>
 	function removeCart(book) {
@@ -46,7 +55,7 @@
 </script>
 </head>
 <body>
-<h1>Cart for user:  <% out.print(user.getUsername()); %></h1>
+<h1>Cart for user:  <% out.print(username); %></h1>
 <p>Cart size: <% out.print(cart.getSize()); %></p>
 <table id="list">
 	<tr>
@@ -69,7 +78,7 @@
 %>
 <tr>
 	<td width="20%"><%=b.getProductId()%></td>
-	<td width="20%"><%=b.getTitle()%></td>
+	<td width="20%"><a href="bookDetails.jsp?<%=b.getProductId()%>"><%=b.getTitle()%></a></td>
 	<td width="20%"><%=b.getAuthor()%></td>
 	<td width="20%"><%=b.getPublisher()%></td>
 	<td width="20%"><%=b.getPublishYear()%></td>
@@ -101,7 +110,7 @@
 	</tr>
 </table>
 <form name="bookRemove" method="post" action="cart/remove">
-<input type="hidden" name="book2" id="book2">
+<input type="hidden" name="book1" id="book2">
 </form>
 <form name="bookModify" method="post" action="cart/modify">
 	<input type="hidden" name="book1" id="book1">

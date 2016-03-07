@@ -19,6 +19,8 @@ public class BookRatingDB extends Database{
 				stmt.setInt(1, book_id);
 				rs = stmt.executeQuery();
 
+				double avgRating = 0;
+				int count = 0;
 				while(rs.next()){
 					br = new BookRating();
 					br.setBookId(book_id);
@@ -27,7 +29,11 @@ public class BookRatingDB extends Database{
 					br.setDate(rs.getDate("rate_date"));
 					br.setComment(rs.getString("rate_comment"));
 					book.addRating(br);
+					avgRating += rs.getInt("rating");
+					count++;
 				}
+				avgRating /= count;
+				book.setAvgRating(avgRating);
 			}
 		}catch(Exception e){
 			e.printStackTrace();

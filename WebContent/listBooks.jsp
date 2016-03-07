@@ -11,7 +11,7 @@
 				font-family: Arial, Verdana, sans-serif;
 				color: #111111;}
 	table {
-				width: 800px;
+				width: 1000px;
 				margin: auto;
 				border-collapse: collapse;
 				}
@@ -65,7 +65,7 @@
 %>
 <tr>
 	<td width="20%"><%=b.getProductId()%></td>
-	<td width="20%"><a href="bookDetails.jsp?<%=b.getProductId()%>"><%=b.getTitle()%><a></td>
+	<td width="20%"><a href="bookDetails.jsp?<%=b.getProductId()%>"><%=b.getTitle()%></a></td>
 	<td width="20%"><%=b.getAuthor()%></td>
 	<td width="20%"><%=b.getPublisher()%></td>
 	<td width="20%"><%=b.getPublishYear()%></td>
