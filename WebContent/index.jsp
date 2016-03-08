@@ -159,25 +159,34 @@ body
 	  		
 	  		
 	  		<ul id="drop-nav">
-			  <li><a href="#">Support</a></li>
-			  <li><a href="#">Web Design</a>
+			 
+			  <li> <a href = "#">Books</a>
+			  <ul>
+			 	 <li><a href = "/listBooks.jsp" >Browse</a></li>
+			  	<li><a href = "#" >Top 10 Books!</a></li>
+			  </ul>
+			  </li>
+			  
+			  <li><a href="#">Account</a>
 			    <ul>
-			      <li><a href="#">HTML</a></li>
-			      <li><a href="#">CSS</a></li>
+			      <li><a href="/cart.jsp">Cart</a></li>
 			    </ul>
 			  </li>
+			  
 			  <li><a href="#">Content Management</a>
 			    <ul>
 			      <li><a href="#">Joomla</a></li>
 			      <li><a href="#">Drupal</a></li>
 			    </ul>
 			  </li>
+			
 			  <li><a href="#">Contact</a>
 			    <ul>
 			      <li><a href="#">General Inquiries</a></li>
 			      <li><a href="#">Ask me a Question</a></li>
 			    </ul>
 			  </li>
+			
 			</ul>
 			
 			
