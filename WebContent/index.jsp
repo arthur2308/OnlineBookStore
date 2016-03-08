@@ -115,9 +115,9 @@ body
 </head>
 	<body>
 		<div id = "topBar">
-			
+			<a href "/">
 			<h1 align = "center" >Nap Store</h1>
-			
+			</a>
 			<!--  authorization was here put it back here, the whole div  -->
 			
 			<div id = "welcome_user"> 
