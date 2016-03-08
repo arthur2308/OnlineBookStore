@@ -139,6 +139,10 @@ body
 		document.getElementById("book").value = book;
 		document.addBook.submit();
 	}
+	function signOut()
+	{
+		document.logoutUser.submit();
+	}
 </script>
 
 <% 
@@ -179,8 +183,8 @@ body
 		  		
 		  		%>
 		  		<div id = "authorization"> 
-		  			<a href = "loginForm.html" class = "red_box_link">Login</a> 
-					<a href = "signupForm.html" class = "red_box_link">Sign Up</a> 
+		  			<a href = "/../loginForm.html" class = "red_box_link">Login</a> 
+					<a href = "/../signupForm.html" class = "red_box_link">Sign Up</a> 
 				</div> 
 		  		
 		  		<%
@@ -242,7 +246,6 @@ body
 			
 			
 	  	</div>
-<form name="modify" method="post">
 <table id="list">
 	<tr>
 		<th>Product Id</th>
@@ -262,7 +265,7 @@ body
 %>
 <tr>
 	<td width="20%"> <%= u.getProductId() %></td>
-	<td width="20%"> <%= u.getTitle() %>   </td>
+	<td width="20%"><a href="/../bookDetails.jsp?<%=u.getProductId()%>"><%=u.getTitle()%></a></td>
 	<td width="20%"><%=  u.getAuthor() %></td>
 	<td width="20%"><%=  u.getPublisher() %></td>
 	<td width="20%"><%=  u.getPublishYear() %></td>
@@ -272,31 +275,15 @@ body
 	<td width="20%">
 		<a href="javascript:addCart('<%=u.getProductId()%>');">[add cart]</a>
 	</td>
-	<td width="20%">
-	</td>
 </tr>
-
-
 <%
 	}
 %>
 </table>
-<form name="addBook" method="post" action="cart/add">
+<form name="addBook" method="post" action="/../cart/add">
 <input type="hidden" name="book" id="book">
 </form>
+<form name="logoutUser" method="post" action="/../user/logout">
 </form>
-<br><br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br><br><br>
-<script>
-	function signOut()
-	{
-		document.logoutUser.submit();
-	}
-	
-
-</script>
-<form name="logoutUser" method="post" action="user/logout">
-		</form>
 </body>
 </html>

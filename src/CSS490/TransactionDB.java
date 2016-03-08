@@ -63,7 +63,7 @@ public class TransactionDB extends Database {
 						currQ = rsb.getInt("inven_amount");
 					}
 					
-					if (currQ > quantity) {
+					if (currQ >= quantity) {
 						stmtLog.setInt(1, trans_id);
 						stmtLog.setInt(2, i.getBook().getProductId());
 						stmtLog.setDouble(3, price);

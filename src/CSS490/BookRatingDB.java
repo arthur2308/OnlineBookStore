@@ -32,7 +32,9 @@ public class BookRatingDB extends Database{
 					avgRating += rs.getInt("rating");
 					count++;
 				}
-				avgRating /= count;
+				if (count > 0) {
+					avgRating /= count;
+				}
 				book.setAvgRating(avgRating);
 			}
 		}catch(Exception e){

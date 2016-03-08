@@ -112,6 +112,7 @@ span#comment-text {
 	HttpSession sess = request.getSession();
 	User user = (User) sess.getAttribute("User");
 	String s_bid = request.getQueryString();
+	System.out.println(s_bid);
 	int book_id = -1;
 	try {
 		book_id = Integer.parseInt(s_bid);
@@ -186,8 +187,8 @@ span#comment-text {
 						<input type="radio" name="rating" id="group-1-2" value="3" /><label for="group-1-2"></label>
 						<input type="radio" name="rating" id="group-1-3" value="2" /><label for="group-1-3"></label>
 						<input type="radio" name="rating" id="group-1-4" value="1" /><label for="group-1-4"></label>
-						<input type="hidden" name="book" id="book1" value="<%=book_id%>">
-						<input type="hidden" name="user" id="user1" value="<%=user_id%>">
+						<input type="hidden" name="book1" id="book1" value="<%=book_id%>">
+						<input type="hidden" name="user1" id="user1" value="<%=user_id%>">
 					</form>
 				</div>
 			</td>

@@ -49,9 +49,10 @@ public class BookRatingController extends HttpServlet {
 	}
 	
 	private String setRating(HttpServletRequest request){
-		String url = "/listBooks.jsp";
+		String url = "/book/list";
 		String book = request.getParameter("book1");
 		String s_rate = request.getParameter("rating");
+		
 		int book_id = Integer.parseInt(book);
 		int rating = Integer.parseInt(s_rate);
 		int user_id = Integer.parseInt(request.getParameter("user1"));
@@ -63,7 +64,7 @@ public class BookRatingController extends HttpServlet {
 		int flag = BookRatingDB.setRating(br);
 		
 		if(flag > 0){
-			url = "/listBooks.jsp";
+			url = "/book/list";
 		}
 		return url;
 	}
