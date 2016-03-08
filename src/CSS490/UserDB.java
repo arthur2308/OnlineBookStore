@@ -219,4 +219,25 @@ public class UserDB extends Database{
 		}
 		return flag;
 	}
+	
+	public static boolean isAdmin(int userid) {
+		boolean result = false;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try{
+			if (connect()) {
+				stmt = conn.prepareStatement("select * from customer where cust_id = ?");
+				stmt.setInt(1, userid);
+				rs = stmt.executeQuery();
+				if(rs.next()){
+					result = rs.getBoolean("admin");
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn, rs);
+		}
+		return result;
+	}
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import = "java.util.*, CSS490.*" %>
 <%@ page import="CSS490.User" %>
 <%@ page import="CSS490.Cart" %>
 <%@ page import="javax.swing.text.html.HTMLDocument" %>
@@ -206,7 +207,7 @@ body
 	  	<br><br>
 	  	<h3> Featured: </h3>
 	  	<% out.print("old man take a look at my life"); %>
-		<br><br><br><br><br>LOREM IPSUM<br><br><br><br><br><br>
+		<br><% out.print(UserDB.isAdmin(1)); %><br><br><br><br>LOREM IPSUM<br><br><br><br><br><br>
 		<br><br><br><br><br><br>LOREM IPSUM<br><br><br>
 	    <br><br>LOREM IPSUM<br><br><br><br><br>LOREM IPSUM<br><br><br><br>
 		<br><br><br>LOREM IPSUM<br><br><br><br><br>Hello, Welcome to the book store. You're on a home page.
