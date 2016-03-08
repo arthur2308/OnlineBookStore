@@ -219,7 +219,7 @@ public class UserDB extends Database{
 		}
 		return flag;
 	}
-	
+
 	public static boolean isAdmin(int userid) {
 		boolean result = false;
 		PreparedStatement stmt = null;

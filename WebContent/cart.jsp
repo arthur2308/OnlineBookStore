@@ -10,7 +10,7 @@
 	table 
 	{
 		width: 1000px;
-		margin: 10% auto auto;
+		margin: 5% auto auto;
 		border-collapse: collapse;
 	}
 	
@@ -125,6 +125,13 @@
 	{
 		display: inline-block;
 	}	
+	
+	#pageTitle
+	{
+		margin: 7% auto auto;
+		color:black;
+		padding-left:45%;
+	}
 	
 
 </style>
@@ -256,6 +263,13 @@
 			
 			
 	  	</div>
+	  	
+	  	<h1 id = "pageTitle"> 
+	  	<%
+	  	out.print(username + "'s ");
+	  	%>
+	  	
+	  	Cart</h1>
 	  	
 
 <table id="list">

@@ -14,7 +14,7 @@
 				color: #111111;}
 	table {
 				width: 1000px;
-				margin: 10% auto auto;
+				margin: 5% auto auto;
 				border-collapse: collapse;
 				}
 	th, td {
@@ -132,6 +132,14 @@ body
 {
 	display: inline-block;
 }	
+
+#pageTitle
+{
+	margin: 7% auto auto;
+	color:black;
+	padding-left:45%;
+}
+
 	
 </style>
 <script>
@@ -156,9 +164,9 @@ body
 <body>
 
 <div id = "topBar">
-			
+			<a href = "/">
 			<h1 align = "center" >Nap Store</h1>
-			
+			</a>
 			<!--  authorization was here put it back here, the whole div  -->
 			
 			<div id = "welcome_user"> 
@@ -246,6 +254,9 @@ body
 			
 			
 	  	</div>
+
+	  	<h1 id = "pageTitle"> Book Selection</h1>
+	  	
 <table id="list">
 	<tr>
 		<th>Product Id</th>

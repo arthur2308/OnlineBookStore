@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import = "java.util.*, CSS490.*" %>
-<%@ page import="CSS490.User" %>
-<%@ page import="CSS490.Cart" %>
 <%@ page import="javax.swing.text.html.HTMLDocument" %>
 <jsp:useBean id="user" class="CSS490.User"/>
+<jsp:useBean id="userDB" class="CSS490.UserDB"/>
 <jsp:useBean id="book" class="CSS490.Book"/>
 <jsp:useBean id="cart" class="CSS490.Cart"/>
 <%@ page import="CSS490.BookDB" %>
@@ -124,6 +123,9 @@ body
 			<div id = "welcome_user"> 
 		  		<p>
 		  		
+		  		
+		  		
+		  		
 		  		<%
 		  		
 		  		//HTMLDocument doc = new HTMLDocument(); 
@@ -197,6 +199,16 @@ body
 			      <li><a href="#">Ask me a Question</a></li>
 			    </ul>
 			  </li>
+			  
+			  <%
+		  			if (user != null && UserDB.isAdmin(user.getUserId()))
+		  			{
+		  				%>
+		  					<li><a href="#">Web site Administration</a></li>
+		  				<%	
+		  			}
+		  		
+		  		%>
 			
 			</ul>
 			
@@ -207,7 +219,7 @@ body
 	  	<br><br>
 	  	<h3> Featured: </h3>
 	  	<% out.print("old man take a look at my life"); %>
-		<br><% out.print(UserDB.isAdmin(1)); %><br><br><br><br>LOREM IPSUM<br><br><br><br><br><br>
+		<br><br><br><br><br>LOREM IPSUM<br><br><br><br><br><br>
 		<br><br><br><br><br><br>LOREM IPSUM<br><br><br>
 	    <br><br>LOREM IPSUM<br><br><br><br><br>LOREM IPSUM<br><br><br><br>
 		<br><br><br>LOREM IPSUM<br><br><br><br><br>Hello, Welcome to the book store. You're on a home page.
