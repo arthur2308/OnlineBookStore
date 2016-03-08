@@ -132,4 +132,105 @@ public class BookDB extends Database{
 		}	
 		return bookList;
 	}
+
+
+	public static boolean insertBook(Book book){
+		boolean result = false;
+		PreparedStatement stmt = null;
+		try{
+			if (connect()) {
+				String query = "insert into book values (0,?,?,?,?,?)";
+
+				
+					stmt = conn.prepareStatement(query);
+					stmt.setString(1, book.getTitle());
+					stmt.setString(2, book.getAuthor());
+					stmt.setString(3, book.getPublisher());
+					stmt.setInt(4, book.getPublishYear());
+					stmt.setString(5,book.getCategory());
+
+					int i = stmt.executeUpdate();
+					if(i > 0){
+						result = true;
+					}
+			}
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn);
+		}
+
+		return result;
+	}
+
+		public static int checkBookAvail(String author, String title){ 
+		int flag = 0;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try{
+			if (connect()) {
+				stmt = conn.prepareStatement("select * from book where author = ? or title = ?");
+				stmt.setString(1, author);
+				stmt.setString(2, title);
+				rs = stmt.executeQuery();
+				if(rs.next()){
+					flag = 1;
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn, rs);
+		}
+		return flag;
+	}
+
+	public static ArrayList<Book> searchBookbyTitle(String title) {
+		PreparedStatement stmt = null;
+		PreparedStatement stmt2 = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		ArrayList<Book> bookList = new ArrayList<Book>();
+		try{
+			if (connect()) {
+				String query = "select * from book where title like ? order by author;";
+				stmt = conn.prepareStatement(query);
+				stmt.setString(1,"%"+title+"%");
+				rs = stmt.executeQuery();
+
+				while(rs.next()){
+					Book b = new Book();
+					b.setProductId(rs.getInt("product_id"));
+					b.setTitle(rs.getString("title"));
+					b.setAuthor(rs.getString("author"));
+					b.setPublisher(rs.getString("publisher"));
+					b.setPublishYear(rs.getInt("publish_year"));
+					b.setCategory(rs.getString("category"));
+					
+					// gets the price and inventory
+					query = "select * from book_inventory where book_id = ?";
+					stmt2 = conn.prepareStatement(query);
+					stmt2.setInt(1, b.getProductId());
+					rs2 = stmt2.executeQuery();
+					
+					while(rs2.next()) {
+						b.setPrice(rs2.getDouble("price"));
+						b.setInventory(rs2.getInt("inven_amount"));
+					}
+					
+					bookList.add(b);
+					closeAll(stmt2, null, rs2);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn, rs);
+		}	
+	
+		return bookList;
+		
+	}
+	
 }

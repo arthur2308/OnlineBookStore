@@ -52,6 +52,7 @@ h1
 {
 	color:white;
 	display: inline-block;
+	margin: 10pt;
 }
 
 body
@@ -63,7 +64,7 @@ body
 {
 	display:inline-block;
 	float:center;
-	padding-left:20em;
+	padding-left:25%;
 }
 
 #search_button
@@ -96,6 +97,11 @@ body
 	Color:white;
 }
 
+#QueryForm
+{
+	display: inline-block;
+}
+
 </style>
 <meta charset="UTF-8">
 <title>Home Page
@@ -110,7 +116,7 @@ body
 	<body>
 		<div id = "topBar">
 			
-			<h1 align = "center" > Home Page </h1>
+			<h1 align = "center" >Nap Store</h1>
 			
 			<!--  authorization was here put it back here, the whole div  -->
 			
@@ -152,9 +158,13 @@ body
 			
 			
 			<div id = searchBox>
+			<a href = "/">
 				<img src="/Images/3D-Box-1.png" height="42" width="42">
-				<input type="text" style="width: 300px; height: 20px;" name="searchQuery">
+				</a>
+				<form action="book/searchByTitle" method="post" id = "QueryForm">
+				<input type="text" style="width: 300px; height: 20px;" name="title" id = "title">
 		  		<input type="submit" id = "search_button" value="Search"> 
+		  		</form>
 	  		</div>
 	  		
 	  		
@@ -162,7 +172,7 @@ body
 			 
 			  <li> <a href = "#">Books</a>
 			  <ul>
-			 	 <li><a href = "/listBooks.jsp" >Browse</a></li>
+			 	 <li><a href = "book/list" >Browse</a></li>
 			  	<li><a href = "#" >Top 10 Books!</a></li>
 			  </ul>
 			  </li>
@@ -173,9 +183,9 @@ body
 			    </ul>
 			  </li>
 			  
-			  <li><a href="#">Content Management</a>
+			  <li><a href="#">Nap Pages</a>
 			    <ul>
-			      <li><a href="#">Joomla</a></li>
+			      <li><a href="/">Home Page</a></li>
 			      <li><a href="#">Drupal</a></li>
 			    </ul>
 			  </li>
