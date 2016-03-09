@@ -42,7 +42,7 @@ public class UserController extends HttpServlet {
 		// TODO Auto-generated method stub
 		String requestURI = request.getRequestURI();
 		System.out.println(requestURI); 
-		String url = "";
+		String url = "/index.jsp";
 		if(requestURI.endsWith("register")){
 			url = registerUser(request);
 		}else if(requestURI.endsWith("modify")){
@@ -67,7 +67,7 @@ public class UserController extends HttpServlet {
 		int flag = 0;
 		flag = UserDB.checkUserAvail(username, email);
 		if(flag > 0){
-			url = "/fail.jsp";
+			url = "/index.jsp";
 		}else{
 			User user = new User();
 			
@@ -75,7 +75,7 @@ public class UserController extends HttpServlet {
 			user.setPass(pass);
 			user.setEmail(email);
 			if(UserDB.insertUser(user)){
-				url = "/success.jsp";
+				url = "/index.jsp";
 			}
 		}
 		return url;
@@ -122,7 +122,7 @@ public class UserController extends HttpServlet {
 			sess.setAttribute("Cart", cart);
 		}
 		else {
-			url = "/fail.jsp";
+			url = "/index.jsp";
 		}
 		return url;
 	}

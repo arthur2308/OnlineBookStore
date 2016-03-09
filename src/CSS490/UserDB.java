@@ -18,7 +18,7 @@ public class UserDB extends Database{
 			//			conn = ds.getConnection();
 
 			if (connect()) {
-				String query = "insert into CUSTOMER values (0,?,?,?)";
+				String query = "insert into CUSTOMER values (0,?,?,?,0)";
 
 				if (user.createHash()) {
 					stmt = conn.prepareStatement(query);

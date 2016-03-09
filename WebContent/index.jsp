@@ -204,7 +204,7 @@ body
 		  			if (user != null && UserDB.isAdmin(user.getUserId()))
 		  			{
 		  				%>
-		  					<li><a href="#">Web site Administration</a></li>
+		  					<li><a href="/admin.jsp">Web site Administration</a></li>
 		  				<%	
 		  			}
 		  		
