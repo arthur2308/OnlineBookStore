@@ -158,7 +158,12 @@ body
 	user = (User) sess.getAttribute("User");
 	book = BookDB.getBook(1);
 	cart = (Cart) sess.getAttribute("Cart");
-	%>
+
+	if (user == null || !UserDB.isAdmin(user.getUserId())) {
+		response.sendRedirect("/index.jsp");
+		return;
+	}
+%>
 	
 </head>
 <body>

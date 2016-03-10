@@ -233,15 +233,16 @@ table, td, th {
 			
 	  	</div>
 	  	<br><br><br><br><br>
-	  	<h2 align = "center"> Welcome to Amazon book store.</h2>
+	  	<h2 align = "center"> Welcome to Nap Store.</h2>
 	  	<br><br>
 		
 		
 		<div class="topbookslist" align = "center">
-		<table width="500">
+		<table width="1000">
 			<tr>
-				<th width="50%">This week's top 10</th>
-				<th>Last week's top 10</th>
+				<th width="33%">This week's top 10</th>
+				<th width="33%">Last week's top 10</th>
+				<th>Top rated</th>
 			</tr>
 			<tr>
 				<td>
@@ -261,6 +262,18 @@ table, td, th {
 						<%
 							ArrayList<Book> lastweek = BookDB.getLastTopTen();
 							for (Book b : lastweek) {
+						%>
+						<li><a href="/../bookDetails.jsp?<%=b.getProductId()%>"><%=b.getTitle()%></a></li>
+						<%
+							}
+						%>
+					</ol>
+				</td>
+				<td>
+					<ol>
+						<%
+							ArrayList<Book> toprated = BookRatingDB.getTopRated();
+							for (Book b : toprated) {
 						%>
 						<li><a href="/../bookDetails.jsp?<%=b.getProductId()%>"><%=b.getTitle()%></a></li>
 						<%
