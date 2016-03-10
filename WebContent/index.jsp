@@ -233,7 +233,7 @@ table, td, th {
 			
 	  	</div>
 	  	<br><br><br><br><br>
-	  	<h2 align = "center"> Welcome to Nap Store.</h2>
+	  	<h2 align = "center"> Welcome to Nap Store</h2>
 	  	<br><br>
 		
 		
