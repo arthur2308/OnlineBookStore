@@ -284,7 +284,7 @@ table, td, th {
 			</tr>
 		</table>
 		
-		<table width="500">
+		<table width=800>
 			<tr>
 				<th>Genre</th>
 				<th>This week's top 5</th>
