@@ -187,7 +187,7 @@ body
 		  			<!-- <br><button id = "logout" onclick="signOut()">Sign out</button> --> 
 		  			<a href = "/cart.jsp" id = "acct">Cart </a>
 		  			<%
-		  			//out.println("(" + cart.getSize() + ") - ");
+		  			out.println("(" + cart.getSize() + ") - ");
 		  			%>
 		  			<a href = "javascript:signOut()" id = "acct" >Sign Out </a>
 		  			 <% 
@@ -254,14 +254,36 @@ body
 			      <li><a href="#">Ask me a Question</a></li>
 			    </ul>
 			  </li>
+			  
+			  <%
+		  			if (user != null && UserDB.isAdmin(user.getUserId()))
+		  			{
+		  				%>
+		  					<li><a href="#" class="toplink">Web site Administration</a>
+		  						<ul>
+			 					     <li><a href="/admin.jsp" class="toplink">Stats</a></li>
+			 					     
+			 					     <li>
+			 					     <form action="book/searchByTitleAdmin" method="post" id = "QueryForm" name="adminbook">
+			 					     <input type="hidden" style="width: 300px; height: 20px;" name="title" id = "title">
+			 					     <a href="javascript:adminbook()" class="toplink">Edit books</a>
+			 					     </form></li>
+			 					     
+								    
+							    </ul>
+		  					</li>
+		  				<%	
+		  			}
+		  		
+		  		%>
 			
 			</ul>
 			
 			
 	  	</div>
 
-	  	<h1 id = "pageTitle"> Book Selection Admin view</h1>
-	  	
+	  	<h1 id = "pageTitle"> Book Selection</h1>
+	  	<p align = "center">(Admin View)</p>
 <table id="list">
 	<tr>
 		<th>Product Id</th>

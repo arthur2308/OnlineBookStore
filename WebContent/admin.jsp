@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Admin Statistics</title>
 <style>
 table {
 	border-collapse: collapse;
@@ -293,5 +293,10 @@ double salesLastMonth = TransactionDB.getSalesLastMonth();
 	}
 	%>
 </table>
+<script>
+function adminbook() {
+	document.adminbook.submit();
+}
+</script>
 </body>
 </html>
