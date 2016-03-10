@@ -199,10 +199,13 @@ table, td, th {
 			    </ul>
 			  </li>
 			
-			  <li><a href="#" class="toplink">Contact</a>
+			  <li><a href="#" class="toplink">Category</a>
 			    <ul>
-			      <li><a href="#" class="toplink">General Inquiries</a></li>
-			      <li><a href="#" class="toplink">Ask me a Question</a></li>
+			      <li><a href="javascript:category('Adventure')" class="toplink">Adventure</a></li>
+			      <li><a href="javascript:category('Fantasy')" class="toplink">Fantasy</a></li>
+			      <li><a href="javascript:category('Comedy')" class="toplink">Comedy</a></li>
+			      <li><a href="javascript:category('Literature')" class="toplink">Literature</a></li>
+			      <li><a href="javascript:category('Science')" class="toplink">Science</a></li>
 			    </ul>
 			  </li>
 			  
@@ -335,6 +338,10 @@ table, td, th {
 		<script>
 		
 		// sigs a user out 
+		function category(genre) {
+			document.getElementById("category").value = genre;
+			document.category.submit();
+		}
 		function signOut()
 		{
 			document.logoutUser.submit();
@@ -352,6 +359,9 @@ table, td, th {
 		-->
 		</script>
 		<form name="logoutUser" method="post" action="user/logout">
+		</form>
+		<form name="category" method = "post" action = "book/category">
+		<input type = "hidden" name = "category" id="category">
 		</form>
 	</body>
 </html>

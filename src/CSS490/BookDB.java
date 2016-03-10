@@ -330,6 +330,53 @@ public class BookDB extends Database{
 		
 	}
 	
+	public static ArrayList<Book> searchBookbyCategory(String title) {
+		PreparedStatement stmt = null;
+		PreparedStatement stmt2 = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		ArrayList<Book> bookList = new ArrayList<Book>();
+		try{
+			if (connect()) {
+				String query = "select * from book where category like ? order by author;";
+				stmt = conn.prepareStatement(query);
+				stmt.setString(1,"%"+title+"%");
+				rs = stmt.executeQuery();
+
+				while(rs.next()){
+					Book b = new Book();
+					b.setProductId(rs.getInt("product_id"));
+					b.setTitle(rs.getString("title"));
+					b.setAuthor(rs.getString("author"));
+					b.setPublisher(rs.getString("publisher"));
+					b.setPublishYear(rs.getInt("publish_year"));
+					b.setCategory(rs.getString("category"));
+					
+					// gets the price and inventory
+					query = "select * from book_inventory where book_id = ?";
+					stmt2 = conn.prepareStatement(query);
+					stmt2.setInt(1, b.getProductId());
+					rs2 = stmt2.executeQuery();
+					
+					while(rs2.next()) {
+						b.setPrice(rs2.getDouble("price"));
+						b.setInventory(rs2.getInt("inven_amount"));
+					}
+					
+					bookList.add(b);
+					closeAll(stmt2, null, rs2);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn, rs);
+		}	
+	
+		return bookList;
+		
+	}
+	
 	public static ArrayList<Book> getThisTopTen() {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

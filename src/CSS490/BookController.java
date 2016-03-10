@@ -73,6 +73,10 @@ public class BookController extends HttpServlet {
 			url = deleteBook(request);
 		}
 		
+		if(requestURI.endsWith("category")) {
+			searchByCategory(request, response, "notadmin");
+		}
+		
 		if(url == "/AdminListBooks.jsp" ) {
 			searchByTitle(request, response, "admin");
 		}
@@ -215,6 +219,29 @@ public class BookController extends HttpServlet {
 		}
 	}
 	
+	
+	private void searchByCategory(HttpServletRequest request, HttpServletResponse response, String admin) throws ServletException{
+		response.setContentType("text/html");
+		System.out.println("return filtered books" + " category");
+		String title = request.getParameter("category");
+		try{
+			
+			ArrayList<Book> books = BookDB.searchBookbyCategory(title);
+			request.setAttribute("books", books);
+			System.out.println(books.size());
+			RequestDispatcher rd = null;
+			
+			if(admin  == "admin") {
+				rd = request.getRequestDispatcher("/AdminListBooks.jsp");
+			} else {
+				rd = request.getRequestDispatcher("/listBooks.jsp");
+			}
+			//RequestDispatcher rd = request.getRequestDispatcher("../listUsers_JSTL.jsp");
+			rd.forward(request, response);
+		}catch(Exception e){
+			throw new ServletException(e);
+		}
+	}
 
 
 }

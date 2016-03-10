@@ -252,10 +252,13 @@
 			    </ul>
 			  </li>
 			
-			  <li><a href="#">Contact</a>
+			  <li><a href="#">Category</a>
 			    <ul>
-			      <li><a href="#">General Inquiries</a></li>
-			      <li><a href="#">Ask me a Question</a></li>
+			      <li><a href="javascript:category('Adventure')" class="toplink">Adventure</a></li>
+			      <li><a href="javascript:category('Fantasy')" class="toplink">Fantasy</a></li>
+			      <li><a href="javascript:category('Comedy')" class="toplink">Comedy</a></li>
+			      <li><a href="javascript:category('Literature')" class="toplink">Literature</a></li>
+			      <li><a href="javascript:category('Science')" class="toplink">Science</a></li>
 			    </ul>
 			  </li>
 			
@@ -324,6 +327,15 @@
 		</th>
 	</tr>
 </table>
+<script>
+function category(genre) {
+	document.getElementById("category").value = genre;
+	document.category.submit();
+}
+</script>
+<form name="category" method = "post" action = "book/category">
+<input type = "hidden" name = "category" id="category">
+</form>
 <form name="bookRemove" method="post" action="cart/remove">
 <input type="hidden" name="book1" id="book2">
 </form>
