@@ -87,7 +87,7 @@ body
   ul li a:hover {background: #f00;}
   li:hover ul {display: block; position: absolute;}
   li:hover li {float: none;}
-  li:hover a {background: #f00;}
+  li:hover a.toplink {background: #f00;}
   li:hover li a:hover {background: #000;}
   #drop-nav li ul li {border-top: 0px;}
 
@@ -102,6 +102,12 @@ body
 	display: inline-block;
 }
 
+table {
+	border-collapse: collapse;
+}
+table, td, th {
+	border: 1px solid black;
+}
 </style>
 <meta charset="UTF-8">
 <title>Home Page
@@ -173,30 +179,30 @@ body
 	  		
 	  		<ul id="drop-nav">
 			 
-			  <li> <a href = "#">Books</a>
+			  <li> <a href = "#" class="toplink">Books</a>
 			  <ul>
-			 	 <li><a href = "book/list" >Browse</a></li>
-			  	<li><a href = "#" >Top 10 Books!</a></li>
+			 	 <li><a href = "book/list"  class="toplink">Browse</a></li>
+			  	<li><a href = "#"  class="toplink">Top 10 Books!</a></li>
 			  </ul>
 			  </li>
 			  
-			  <li><a href="#">Account</a>
+			  <li><a href="#" class="toplink">Account</a>
 			    <ul>
-			      <li><a href="/cart.jsp">Cart</a></li>
+			      <li><a href="/cart.jsp" class="toplink">Cart</a></li>
 			    </ul>
 			  </li>
 			  
-			  <li><a href="#">Nap Pages</a>
+			  <li><a href="#" class="toplink">Nap Pages</a>
 			    <ul>
-			      <li><a href="/">Home Page</a></li>
-			      <li><a href="#">Drupal</a></li>
+			      <li><a href="/" class="toplink">Home Page</a></li>
+			      <li><a href="#" class="toplink">Drupal</a></li>
 			    </ul>
 			  </li>
 			
-			  <li><a href="#">Contact</a>
+			  <li><a href="#" class="toplink">Contact</a>
 			    <ul>
-			      <li><a href="#">General Inquiries</a></li>
-			      <li><a href="#">Ask me a Question</a></li>
+			      <li><a href="#" class="toplink">General Inquiries</a></li>
+			      <li><a href="#" class="toplink">Ask me a Question</a></li>
 			    </ul>
 			  </li>
 			  
@@ -204,7 +210,19 @@ body
 		  			if (user != null && UserDB.isAdmin(user.getUserId()))
 		  			{
 		  				%>
-		  					<li><a href="/admin.jsp">Web site Administration</a></li>
+		  					<li><a href="#" class="toplink">Web site Administration</a>
+		  						<ul>
+			 					     <li><a href="/admin.jsp" class="toplink">Stats</a></li>
+			 					     
+			 					     <li>
+			 					     <form action="book/searchByTitleAdmin" method="post" id = "QueryForm" name="adminbook">
+			 					     <input type="hidden" style="width: 300px; height: 20px;" name="title" id = "title">
+			 					     <a href="javascript:adminbook()" class="toplink">Edit books</a>
+			 					     </form></li>
+			 					     
+								    
+							    </ul>
+		  					</li>
 		  				<%	
 		  			}
 		  		
@@ -217,20 +235,99 @@ body
 	  	<br><br><br><br><br>
 	  	<h2 align = "center"> Welcome to Amazon book store.</h2>
 	  	<br><br>
-	  	<h3> Featured: </h3>
-	  	<% out.print("old man take a look at my life"); %>
-		<br><br><br><br><br>LOREM IPSUM<br><br><br><br><br><br>
-		<br><br><br><br><br><br>LOREM IPSUM<br><br><br>
-	    <br><br>LOREM IPSUM<br><br><br><br><br>LOREM IPSUM<br><br><br><br>
-		<br><br><br>LOREM IPSUM<br><br><br><br><br>Hello, Welcome to the book store. You're on a home page.
 		
 		
+		<div class="topbookslist" align = "center">
+		<table width="500">
+			<tr>
+				<th width="50%">This week's top 10</th>
+				<th>Last week's top 10</th>
+			</tr>
+			<tr>
+				<td>
+					<ol>
+						<%
+							ArrayList<Book> thisweek = BookDB.getThisTopTen();
+							for (Book b : thisweek) {
+						%>
+						<li><a href="/../bookDetails.jsp?<%=b.getProductId()%>"><%=b.getTitle()%></a></li>
+						<%
+							}
+						%>
+					</ol>
+				</td>
+				<td>
+					<ol>
+						<%
+							ArrayList<Book> lastweek = BookDB.getLastTopTen();
+							for (Book b : lastweek) {
+						%>
+						<li><a href="/../bookDetails.jsp?<%=b.getProductId()%>"><%=b.getTitle()%></a></li>
+						<%
+							}
+						%>
+					</ol>
+				</td>
+			</tr>
+		</table>
+		
+		<table width="500">
+			<tr>
+				<th>Genre</th>
+				<th>This week's top 5</th>
+				<th>Last week's top 5</th>
+			</tr>
+			<%
+			ArrayList<String> genres = new ArrayList<String>();
+			genres.add("Adventure");
+			genres.add("Fantasy");
+			genres.add("Memoir");
+			genres.add("Russian Classic");
+			
+			for (String g:genres) {
+			%>
+			<tr>
+				<th><%=g %></th>
+				<td>
+					<ol>
+						<%
+							ArrayList<Book> thisgenre = BookDB.getThisTopGenre(g);
+							for (Book b : thisgenre) {
+						%>
+						<li><a href="/../bookDetails.jsp?<%=b.getProductId()%>"><%=b.getTitle()%></a></li>
+						<%
+							}
+						%>
+					</ol>
+				</td>
+				<td>
+					<ol>
+						<%
+							ArrayList<Book> lastgenre = BookDB.getLastTopGenre(g);
+							for (Book b : lastgenre) {
+						%>
+						<li><a href="/../bookDetails.jsp?<%=b.getProductId()%>"><%=b.getTitle()%></a></li>
+						<%
+							}
+						%>
+					</ol>
+				</td>
+			</tr>
+			<%
+			}
+			%>
+		</table>
+		</div>
+
 		<script>
 		
 		// sigs a user out 
 		function signOut()
 		{
 			document.logoutUser.submit();
+		}
+		function adminbook() {
+			document.adminbook.submit();
 		}
 		<!-- 
 		window.onload = function() {

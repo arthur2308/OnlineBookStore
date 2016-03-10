@@ -89,4 +89,127 @@ public class TransactionDB extends Database {
 		}
 		return result;
 	}
+	
+	public static double getSalesThisWeek() {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		double result = 0;
+		try{
+			if (connect()) {
+				String query = "select SUM(price) as total from transaction_list t, transaction_log l "
+						+ "where l.transaction_id = t.transaction_id AND t._date >= DATE(NOW()) - INTERVAL 1 WEEK;";
+				stmt = conn.prepareStatement(query);
+				rs = stmt.executeQuery();
+
+				while(rs.next()){
+					result = rs.getDouble("total");
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn, rs);
+		}
+		return result;
+	}
+	
+	public static double getSalesLastWeek() {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		double result = 0;
+		try{
+			if (connect()) {
+				String query = "select SUM(price) as total from transaction_list t, transaction_log l "
+						+ "where l.transaction_id = t.transaction_id AND "
+						+ "t._date >= DATE(NOW()) - INTERVAL 2 WEEK AND t._date <= DATE(NOW()) - INTERVAL 1 WEEK;";
+				stmt = conn.prepareStatement(query);
+				rs = stmt.executeQuery();
+
+				while(rs.next()){
+					result = rs.getDouble("total");
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn, rs);
+		}
+		return result;
+	}
+	
+	public static double getSalesThisMonth() {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		double result = 0;
+		try{
+			if (connect()) {
+				String query = "select SUM(price) as total from transaction_list t, transaction_log l "
+						+ "where l.transaction_id = t.transaction_id AND t._date >= DATE(NOW()) - INTERVAL 1 MONTH;";
+				stmt = conn.prepareStatement(query);
+				rs = stmt.executeQuery();
+
+				while(rs.next()){
+					result = rs.getDouble("total");
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn, rs);
+		}
+		return result;
+	}
+	
+	public static double getSalesLastMonth() {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		double result = 0;
+		try{
+			if (connect()) {
+				String query = "select SUM(price) as total from transaction_list t, transaction_log l "
+						+ "where l.transaction_id = t.transaction_id AND "
+						+ "t._date >= DATE(NOW()) - INTERVAL 2 MONTH AND t._date <= DATE(NOW()) - INTERVAL 1 MONTH;";
+				stmt = conn.prepareStatement(query);
+				rs = stmt.executeQuery();
+
+				while(rs.next()){
+					result = rs.getDouble("total");
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn, rs);
+		}
+		return result;
+	}
+	
+	public static ArrayList<String[]> getCustomers2Genre() {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ArrayList<String[]> strings = new ArrayList<String[]>();
+		try{
+			if (connect()) {
+				String query = "select username, amount, category from (select username, COUNT(cust_id) as amount, category "
+						+ "from customer c, book b, transaction_list t, transaction_log l where l.transaction_id = t.transaction_id "
+						+ "AND c.cust_id = t.customer_id AND b.product_id = l.book_id AND t._date >= DATE(NOW()) - INTERVAL 1 MONTH "
+						+ "GROUP BY cust_id, category) as t where amount > 2;";
+				stmt = conn.prepareStatement(query);
+				rs = stmt.executeQuery();
+
+				while(rs.next()){
+					String stuff[] = new String[2];
+					stuff[0] = rs.getString("username");
+					stuff[1] = rs.getString("category");
+					
+					strings.add(stuff);
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeAll(stmt, conn, rs);
+		}
+		return strings;
+	}
 }

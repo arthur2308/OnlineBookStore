@@ -49,18 +49,47 @@ public class BookController extends HttpServlet {
 		// TODO Auto-generated method stub
 		String requestURI = request.getRequestURI();
 		String url = "";
+		boolean  t = false;
 		
 		if(requestURI.endsWith("searchByTitle")) {
-			searchByTitle(request, response);
+			searchByTitle(request, response, "notAdmin");
+			t = true;
+		}
+		
+		if(requestURI.endsWith("searchByTitleAdmin")) {
+			searchByTitle(request, response, "admin");
+			t = true;
 		}
 		
 		if(requestURI.endsWith("create")) {
-			
+			url = createBook(request);
 		}
 		
 		if(requestURI.endsWith("modify")) {
-			
+			url = modifyBook(request);
 		}
+		
+		if(requestURI.endsWith("delete")) {
+			url = deleteBook(request);
+		}
+		
+		if(url == "/AdminListBooks.jsp" ) {
+			searchByTitle(request, response, "admin");
+		}
+		
+	}
+	
+	
+	private String deleteBook(HttpServletRequest request) {
+		
+		String url = "/AdminListBooks.jsp";
+		String tempbookId = request.getParameter("book_id");
+		int bookId = Integer.parseInt(tempbookId);
+		Book book = new Book();
+		book.setProductId(bookId);
+	    BookDB.deleteBook(book);
+
+		return url;
 	}
 	
 	private String modifyBook(HttpServletRequest request) {
@@ -68,38 +97,83 @@ public class BookController extends HttpServlet {
 		
 		String url = "";
 		
-		String author = request.getParameter("author");
-		String category = request.getParameter("category");
+		String tempbookId = request.getParameter("book_id");
+		int bookId = Integer.parseInt(tempbookId);
 		
+		//Book temp = BookDB.getBook(bookId);
+		
+		String author = request.getParameter("author");
+		String title = request.getParameter("title");
+		String category = request.getParameter("category");
+		String publisher = request.getParameter("publisher");
+		String tempYear = request.getParameter("publishYear");
+		int publishYear = Integer.parseInt(tempYear);
+		String tempPrice = request.getParameter("price");
+		double price = Double.parseDouble(tempPrice);
 		String tempInv = request.getParameter("inventory");
 		int inventory = Integer.parseInt(tempInv);
 		
+		
+			Book book = new Book();
+			book.setProductId(bookId);
+			book.setAuthor(author);
+			book.setTitle(title);
+			book.setCategory(category);
+			book.setPublisher(publisher);
+			book.setPublishYear(publishYear);
+			book.setInventory(inventory);
+			book.setPrice(price);
+
+			if(BookDB.modifyBook(book)){
+				url = "/AdminListBooks.jsp";
+			} else {
+				url = "/fail.jsp";
+			}
+		
+		return url;
+	}
+	
+	private String createBook(HttpServletRequest request) {
+		
+		String url = "";
+		
+		String author = request.getParameter("author");
+		String category = request.getParameter("category");
+
 		String publisher = request.getParameter("publisher");
 		
 		String tempYear = request.getParameter("publishYear");
 		int publishYear = Integer.parseInt(tempYear);
 		
 		String title = request.getParameter("title");
+		String tempPrice = request.getParameter("price");
+		double price = Double.parseDouble(tempPrice);
 		
-		int flag = 0;
-		flag = UserDB.checkUserAvail(author, title);
-		if(flag > 0){
-			url = "/fail.jsp";
-		}else{
-			User user = new User();
+		String tempInv = request.getParameter("inventory");
+		int inventory = Integer.parseInt(tempInv);
+
+	
+		Book book = new Book();
 			
-//			user.setUsername(username);
-//			user.setPass(pass);
-//			user.setEmail(email);
-//			if(BookDB.(user)){
-//				url = "/success.jsp";
-//			}
+		book.setAuthor(author);
+		book.setCategory(category);
+		book.setTitle(title);
+		book.setInventory(inventory);
+		book.setPublisher(publisher);
+		book.setPublishYear(publishYear);
+		book.setPrice(price);
+
+		if(BookDB.insertBook(book)){
+			url = "/AdminListBooks.jsp";
+		} else {
+				url = "/fail.jsp";
 		}
 		
-		return null;
+		
+		return url;
 	}
 	
-	private void searchByTitle(HttpServletRequest request, HttpServletResponse response) throws ServletException{
+	private void searchByTitle(HttpServletRequest request, HttpServletResponse response, String admin) throws ServletException{
 		response.setContentType("text/html");
 		System.out.println("return filtered books");
 		String title = request.getParameter("title");
@@ -108,7 +182,13 @@ public class BookController extends HttpServlet {
 			ArrayList<Book> books = BookDB.searchBookbyTitle(title);
 			request.setAttribute("books", books);
 			System.out.println(books.size());
-			RequestDispatcher rd = request.getRequestDispatcher("/listBooks.jsp");
+			RequestDispatcher rd = null;
+			
+			if(admin  == "admin") {
+				rd = request.getRequestDispatcher("/AdminListBooks.jsp");
+			} else {
+				rd = request.getRequestDispatcher("/listBooks.jsp");
+			}
 			//RequestDispatcher rd = request.getRequestDispatcher("../listUsers_JSTL.jsp");
 			rd.forward(request, response);
 		}catch(Exception e){
